@@ -15,6 +15,7 @@ export default {
 			symbol: null,
 			reference_data: {},
 			top_of_book: {},
+			suggestion: ""
 		}
 	},
 	methods: { 
@@ -63,7 +64,8 @@ export default {
 
 <template>
 	<div>
-	<select v-model="gateway">
+	<input v-model="gateway" placeholder="Gateway..." type="text" />
+	<select v-model="gateway" class="form-control">
 		<option v-for="gateway in gateways" :value="gateway">
 			{{ gateway }}
 		</option>
@@ -83,13 +85,21 @@ export default {
 	Symbol: {{ symbol }}
 	</div>
 	<div v-if="Object.keys(top_of_book).length>0">
-	<div>{{ top_of_book.exchange }} / {{ top_of_book.symbol }}</div>
-	<div>{{ top_of_book.layer.bid_price }} x {{ top_of_book.layer.ask_price }}</div>
-	<div>{{ format_time(top_of_book.exchange_time_utc) }}</div>
-	<div>{{ format_date(top_of_book.exchange_time_utc) }}</div>
+		<div>{{ top_of_book.exchange }} / {{ top_of_book.symbol }}</div>
+		<div>{{ top_of_book.layer.bid_price }} x {{ top_of_book.layer.ask_price }}</div>
+		<div>{{ format_time(top_of_book.exchange_time_utc) }}</div>
+		<div>{{ format_date(top_of_book.exchange_time_utc) }}</div>
 	</div>
-	<div v-if="Object.keys(reference_data).length>0">{{ reference_data }}</div>
+	<div v-if="Object.keys(reference_data).length>0">
+		<table>
+			<tr v-for="(value,key) in reference_data">
+				<td>{{ key }}</td>
+				<td>{{ value }}</td>
+			</tr>
+		</table>
+	</div>
 </template>
+
 
 <style scoped>
 button { 
