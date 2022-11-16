@@ -1,0 +1,11 @@
+gateways expose service_listen_address on unix socket
+==> reason: free version of nginx requires restart if upstream becomes unavailable
+
+nginx configured like this:
+  location ~ ^/roq/gateway/([\w-]*)/(.*)$ {
+    proxy_pass http://unix:/run/roq/service/$1.sock:/$2;
+  }
+this allows us to access any gateway using /roq/gateway/<name>/... URLs
+
+MISSING
+- ansible should install a static file (json) with list of available gateway names
