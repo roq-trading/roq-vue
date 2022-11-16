@@ -7,6 +7,7 @@ import dayjs from "dayjs"
 export default {
 	data() {
 		return { 
+			prefix: "http://192.168.188.70/roq/gateway",
 			gateways: [ "deribit", "ftx" ],
 			gateway: null,
 			session: {},
@@ -30,30 +31,30 @@ export default {
 		},
 		fetch_session(value,ov) {
 			axios
-				.get(`http://192.168.188.70/roq/gateway/${this.gateway}/session`)
+				.get(`${this.prefix}/${this.gateway}/session`)
 				.then(response => (this.session = response.data))
 		},
 		fetch_exchanges(value,ov) {
 			axios
-				.get(`http://192.168.188.70/roq/gateway/${this.gateway}/top_of_book`)
+				.get(`${this.prefix}/${this.gateway}/top_of_book`)
 				.then(response => (this.exchanges = response.data))
 		},
 		fetch_symbols(value,ov) {
 			axios
-				.get(`http://192.168.188.70/roq/gateway/${this.gateway}/top_of_book/${this.exchange}`)
+				.get(`${this.prefix}/${this.gateway}/top_of_book/${this.exchange}`)
 				.then(response => (this.symbols = response.data))
-		},
-		fetch_reference_data() { 
-			axios
-				.get(`http://192.168.188.70/roq/gateway/${this.gateway}/reference_data/${this.exchange}/${this.symbol}`)
-				.then(response => (this.reference_data = response.data))
 		},
 		fetch_top_of_book() { 
 			axios
-				.get(`http://192.168.188.70/roq/gateway/${this.gateway}/top_of_book/${this.exchange}/${this.symbol}`)
+				.get(`${this.prefix}/${this.gateway}/top_of_book/${this.exchange}/${this.symbol}`)
 				.then(response => {this.top_of_book = response.data;
 							      setTimeout(() => this.fetch_top_of_book(), 5000)
 						  }) 
+		},
+		fetch_reference_data() { 
+			axios
+				.get(`${this.prefix}/${this.gateway}/reference_data/${this.exchange}/${this.symbol}`)
+				.then(response => (this.reference_data = response.data))
 		},
 	},
 	watch: {
@@ -70,6 +71,8 @@ export default {
 
 <template>
 	<div>
+		Prefix:
+		<input v-model="prefix">
 		Gateway:
 		<select v-model="gateway" class="form-control">
 			<option v-for="gateway in gateways" :value="gateway">
