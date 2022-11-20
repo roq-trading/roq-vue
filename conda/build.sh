@@ -13,9 +13,11 @@ npm run build
 
 echo -e "\033[1;34m--- COPY ---\033[0m"
 
-DATADIR="$PREFIX/share/roq/data"
+find $SRC_DIR/dist -name "*"
+
+DATADIR="$PREFIX/share/roq/html"
 
 mkdir -p $DATADIR
-cp -r $SRC_DIR/dist/* $DATADIR/.
+cp -r $SRC_DIR/dist/* $DATADIR
 
 echo -e "\033[1;34m--- DONE ---\033[0m"
