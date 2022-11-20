@@ -4,6 +4,7 @@ import ReferenceData from "../components/ReferenceData.vue";
 import MarketStatus from "../components/MarketStatus.vue";
 import TopOfBook from "../components/TopOfBook.vue";
 import Statistics from "../components/Statistics.vue";
+import Parameters from "../components/Parameters.vue";
 import _ from "lodash";
 defineProps({
   gateway: {
@@ -23,6 +24,8 @@ export default {
       exchange: null,
       symbols: null,
       symbol: null,
+      users: null,
+      user: "trader",
     };
   },
   methods: {
@@ -56,10 +59,6 @@ export default {
 </script>
 
 <template>
-  <div class="container">
-    <h2 v-if="symbol">{{ gateway }} / {{ exchange }} / {{ symbol }}</h2>
-    <h2 v-else>{{ gateway }}</h2>
-  </div>
   <div class="title">
     <h2>Context</h2>
     <hr />
@@ -82,6 +81,10 @@ export default {
         </select>
       </div>
     </div>
+  </div>
+  <div class="container">
+    <p v-if="symbol">{{ gateway }} / {{ exchange }} / {{ symbol }}</p>
+    <p v-else>{{ gateway }}</p>
   </div>
   <div class="title" v-if="symbol">
     <h2>Market</h2>
@@ -121,6 +124,15 @@ export default {
       />
     </div>
   </div>
+  <div class="title">
+    <h2>User</h2>
+    <hr />
+  </div>
+  <div class="user">
+    <div class="object">
+      <Parameters :gateway="gateway" :user="user" v-if="user" />
+    </div>
+  </div>
 </template>
 
 <style scoped>
@@ -150,6 +162,10 @@ hr {
 .market {
   display: grid;
   grid-template-columns: 50% 50%;
+}
+.user {
+  display: grid;
+  grid-template-columns: 100%;
 }
 .object {
 }

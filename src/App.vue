@@ -12,7 +12,9 @@ import { RouterLink, RouterView } from "vue-router";
   </section>
 
   <section class="main-area">
-    <RouterView />
+    <div class="content">
+      <RouterView />
+    </div>
   </section>
 </template>
 
@@ -32,5 +34,9 @@ import { RouterLink, RouterView } from "vue-router";
   display: block;
   padding-top: 1.5em;
   background-color: #16304b;
+}
+.content {
+  max-width: 1280px;
+  margin: 0 auto;
 }
 </style>
