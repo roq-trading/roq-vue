@@ -1,5 +1,5 @@
 package:
-  name: roq-api
+  name: roq-vue
   version: {{ GIT_DESCRIBE_TAG }}
 
 source:
@@ -7,29 +7,14 @@ source:
 
 build:
   skip: true  # [win]
+  noarch: generic
   number: {{ ROQ_BUILD_NUMBER if ROQ_BUILD_NUMBER is defined else GIT_DESCRIBE_NUMBER }}
   script_env:
     - ROQ_BUILD_NUMBER
-    - ROQ_BUILD_TYPE
-  run_exports:
-    strong:
-      - {{ pin_subpackage('roq-api', max_pin='x.x.x') }}
 
 requirements:
   build:
-    - {{ compiler('cxx') }}
-    - clangdev
-    - cmake
-    - doxygen
-    - flatbuffers
-    - make
-  host:
-    - abseil-cpp
-    - fmt
-    - catch2  # [linux]
-    - roq-oss-catch2  # [osx]
-    - roq-oss-magic_enum
-    - roq-oss-range-v3
+    - nodejs
 
 about:
   home: https://roq-trading.com
@@ -38,4 +23,4 @@ about:
   license: MIT
   license_family: MIT
   license_file: LICENSE
-  summary: Roq API
+  summary: Roq Vue
