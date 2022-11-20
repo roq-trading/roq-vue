@@ -20,6 +20,6 @@ DATADIR="$PREFIX/share/roq/html"
 mkdir -p $DATADIR
 cp -r $SRC_DIR/dist/* $DATADIR
 
-find $DATADIR/dist -name "*"
+find $DATADIR -name "*"
 
 echo -e "\033[1;34m--- DONE ---\033[0m"
