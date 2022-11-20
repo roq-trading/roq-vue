@@ -1,11 +1,22 @@
-gateways expose service_listen_address on unix socket
-==> reason: free version of nginx requires restart if upstream becomes unavailable
+create project
+npm init vue@latest
 
-nginx configured like this:
-  location ~ ^/roq/gateway/([\w-]*)/(.*)$ {
-    proxy_pass http://unix:/run/roq/service/$1.sock:/$2;
-  }
-this allows us to access any gateway using /roq/gateway/<name>/... URLs
+cd <project>
 
-MISSING
-- ansible should install a static file (json) with list of available gateway names
+npm install
+npm run lint
+npm run dev
+
+npm install -D tailwindcss postcss autoprefixer
+npx tailwindcss init -p
+
+add to tailwind.config.js
+content: [
+    "./index.html",
+    "./src/**/*.{js,ts,jsx,tsx}",
+  ],
+
+new src/index.css
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

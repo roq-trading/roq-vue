@@ -1,174 +1,36 @@
 <script setup>
-import axios from "axios"
-import dayjs from "dayjs"
-</script>
-
-<script>
-export default {
-	data() {
-		return { 
-			prefix: "http://192.168.188.70/roq/gateway",
-			gateways: [ "deribit", "ftx" ],
-			gateway: null,
-			session: {},
-			exchanges: [],
-			exchange: null,
-			symbols: [],
-			symbol: null,
-			reference_data: {},
-			top_of_book: {},
-			suggestion: ""
-		}
-	},
-	methods: { 
-		format_date(ds) {
-			const d = dayjs(ds);
-			return d.format('YYYY-MM-DD');
-		},
-		format_time(ds) {
-			const d = dayjs(ds);
-			return d.format('hh:mm:ss');
-		},
-		fetch_session(value,ov) {
-			axios
-				.get(`${this.prefix}/${this.gateway}/session`)
-				.then(response => (this.session = response.data))
-		},
-		fetch_exchanges(value,ov) {
-			axios
-				.get(`${this.prefix}/${this.gateway}/top_of_book`)
-				.then(response => (this.exchanges = response.data))
-		},
-		fetch_symbols(value,ov) {
-			axios
-				.get(`${this.prefix}/${this.gateway}/top_of_book/${this.exchange}`)
-				.then(response => (this.symbols = response.data))
-		},
-		fetch_top_of_book() { 
-			axios
-				.get(`${this.prefix}/${this.gateway}/top_of_book/${this.exchange}/${this.symbol}`)
-				.then(response => {this.top_of_book = response.data;
-							      setTimeout(() => this.fetch_top_of_book(), 5000)
-						  }) 
-		},
-		fetch_reference_data() { 
-			axios
-				.get(`${this.prefix}/${this.gateway}/reference_data/${this.exchange}/${this.symbol}`)
-				.then(response => (this.reference_data = response.data))
-		},
-	},
-	watch: {
-		gateway(a,b) { this.fetch_session(); this.fetch_exchanges() },
-		exchange(a,b) { this.fetch_symbols() },
-		symbol(a,b) { this.fetch_reference_data(); this.fetch_top_of_book(); },
-	},
-	created() {
-	},
-	mounted() {
-	}
-}
+import { RouterLink, RouterView } from "vue-router";
 </script>
 
 <template>
-	<div>
-		Prefix:
-		<input v-model="prefix">
-		Gateway:
-		<select v-model="gateway" class="form-control">
-			<option v-for="gateway in gateways" :value="gateway">
-				{{ gateway }}
-			</option>
-		</select>
-	</div>
-	<div v-if="Object.keys(session).length>0">
-		<div>
-			Package:
-			<table>
-				<tr v-for="(value,key) in session.package">
-					<td>{{ key }}</td>
-					<td>{{ value }}</td>
-				</tr>
-			</table>
-		</div>
-		<div>
-			Config:
-			<table>
-				<tr v-for="(value,key) in session.config">
-					<td>{{ key }}</td>
-					<td>{{ value }}</td>
-				</tr>
-			</table>
-		</div>
-		<div>
-			Session:
-			<table>
-				<tr v-for="(value,key) in session.session">
-					<td>{{ key }}</td>
-					<td>{{ value }}</td>
-				</tr>
-			</table>
-		</div>
-		<div>
-			Host:
-			<table>
-				<tr v-for="(value,key) in session.host">
-					<td>{{ key }}</td>
-					<td>{{ value }}</td>
-				</tr>
-			</table>
-		</div>
-		<div>
-			Network:
-			<table>
-				<tr v-for="(value,key) in session.network">
-					<td>{{ key }}</td>
-					<td>{{ value }}</td>
-				</tr>
-			</table>
-		</div>
-		<div>
-			Process:
-			<table>
-				<tr v-for="(value,key) in session.network">
-					<td>{{ key }}</td>
-					<td>{{ value }}</td>
-				</tr>
-			</table>
-		</div>
-	</div>
-	<div>
-		Exchange:
-		<select v-model="exchange">
-			<option v-for="exchange in exchanges" :value="exchange">
-				{{ exchange }}
-			</option>
-		</select>
-		Symbol:
-		<select v-model="symbol">
-			<option v-for="symbol in symbols" :value="symbol">
-				{{ symbol }}
-			</option>
-		</select>
-	</div>
-	<div v-if="Object.keys(top_of_book).length>0">
-		<div>{{ top_of_book.exchange }} / {{ top_of_book.symbol }}</div>
-		<div>{{ top_of_book.layer.bid_price }} x {{ top_of_book.layer.ask_price }}</div>
-		<div>{{ format_time(top_of_book.exchange_time_utc) }}</div>
-		<div>{{ format_date(top_of_book.exchange_time_utc) }}</div>
-	</div>
-	<div v-if="Object.keys(reference_data).length>0">
-		<table>
-			<tr v-for="(value,key) in reference_data">
-				<td>{{ key }}</td>
-				<td>{{ value }}</td>
-			</tr>
-		</table>
-	</div>
+  <section class="hero-area">
+    <div class="banner">
+      <h1>
+        <RouterLink to="/">Roq Trading Solutions</RouterLink>
+      </h1>
+    </div>
+  </section>
+
+  <section class="main-area">
+    <RouterView />
+  </section>
 </template>
 
-
 <style scoped>
-button { 
-font-weight: bold; 
+.hero-area {
+  align-items: center;
+  border-bottom: 1px solid #7f0102;
+  display: flex;
+  height: 100px;
+  vertical-align: middle;
+}
+.banner {
+  text-align: center;
+  width: 100%;
+}
+.main-area {
+  display: block;
+  padding-top: 1.5em;
+  background-color: #16304b;
 }
 </style>
