@@ -9,7 +9,7 @@ env | sort
 echo -e "\033[1;34m--- BUILD ---\033[0m"
 
 npm install --quiet
-npm run build
+npm run build --quiet
 
 echo -e "\033[1;34m--- COPY ---\033[0m"
 
