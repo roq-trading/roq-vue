@@ -8,7 +8,7 @@ env | sort
 
 echo -e "\033[1;34m--- BUILD ---\033[0m"
 
-npm install
+npm install --quiet
 npm run build
 
 echo -e "\033[1;34m--- DONE ---\033[0m"
