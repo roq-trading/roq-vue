@@ -39,13 +39,32 @@ export default {
     <hr />
   </div>
   <div class="container">
-    <ul v-for="item in gateways" :key="item">
-      <li>
-        <RouterLink :to="{ name: 'market', params: { gateway: item } }">{{
-          item
-        }}</RouterLink>
-      </li>
-    </ul>
+    <table>
+      <tr v-for="item in gateways" :key="item">
+        <td>{{ item }}</td>
+        <td>
+          <button>
+            <RouterLink :to="{ name: 'status', params: { gateway: item } }">
+              status
+            </RouterLink>
+          </button>
+        </td>
+        <td>
+          <button>
+            <RouterLink :to="{ name: 'market', params: { gateway: item } }">
+              market
+            </RouterLink>
+          </button>
+        </td>
+        <td>
+          <button>
+            <RouterLink :to="{ name: 'user', params: { gateway: item } }">
+              user
+            </RouterLink>
+          </button>
+        </td>
+      </tr>
+    </table>
   </div>
 </template>
 
@@ -64,5 +83,24 @@ hr {
   border-width: 0;
   border-top: 1px solid #f0af0d;
   padding-bottom: 3em;
+}
+td {
+  padding: 0 0.5em 0 0.5em;
+}
+td:nth-child(1) {
+  color: #f0af0d;
+}
+button {
+  border: 1px solid #7f0102;
+  background: black;
+}
+button a {
+  color: #f0af0d;
+}
+button:hover {
+  background: #7f0102;
+}
+button:hover a {
+  color: white;
 }
 </style>

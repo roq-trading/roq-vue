@@ -59,7 +59,12 @@ export default {
               "exchange",
               "symbol",
             ]))
-        );
+        )
+        .catch((error) => {
+          if (error.response.status != 404) {
+            console.log(error.response.status);
+          }
+        });
     },
   },
   watch: {

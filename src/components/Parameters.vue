@@ -39,7 +39,7 @@ export default {
         { headerName: "symbol", field: "symbol", filter: "agTextColumnFilter" },
         { headerName: "value", field: "value", filter: false },
       ],
-      defaultColDef: {
+      default_headers: {
         flex: 1,
         minWidth: 200,
         resizable: true,
@@ -51,7 +51,12 @@ export default {
     fetch_parameters() {
       axios
         .get(`${this.prefix}/${this.gateway}/parameters/${this.user}/foo`)
-        .then((response) => (this.parameters = response.data));
+        .then((response) => (this.parameters = response.data))
+        .catch((error) => {
+          if (error.response.status != 404) {
+            console.log(error.response.status);
+          }
+        });
     },
   },
   watch: {
@@ -68,37 +73,16 @@ export default {
 <template>
   <div class="container">
     <h3>Parameters</h3>
-    <p>
-      {{ user }}
-    </p>
     <div v-if="parameters">
-      <table>
-        <tr>
-          <th>label</th>
-          <th>account</th>
-          <th>exchange</th>
-          <th>symbol</th>
-          <th>value</th>
-        </tr>
-        <tr v-for="item in parameters" :key="item">
-          <td>{{ item.label }}</td>
-          <td>{{ item.account }}</td>
-          <td>{{ item.exchange }}</td>
-          <td>{{ item.symbol }}</td>
-          <td>{{ item.value }}</td>
-        </tr>
-      </table>
+      <ag-grid-vue
+        style="width: 100%; height: 200px"
+        class="ag-theme-alpine-dark"
+        :columnDefs="headers"
+        :defaultColDef="default_headers"
+        :rowData="parameters"
+      >
+      </ag-grid-vue>
     </div>
-  </div>
-  <div class="test">
-    <ag-grid-vue
-      style="width: 100%; height: 200px"
-      class="ag-theme-alpine-dark"
-      :columnDefs="headers"
-      :defaultColDef="defaultColDef"
-      :rowData="parameters"
-    >
-    </ag-grid-vue>
   </div>
 </template>
 

@@ -41,7 +41,12 @@ export default {
         .get(
           `${this.prefix}/${this.gateway}/statistics/${this.exchange}/${this.symbol}`
         )
-        .then((response) => (this.statistics = response.data));
+        .then((response) => (this.statistics = response.data))
+        .catch((error) => {
+          if (error.response.status != 404) {
+            console.log(error.response.status);
+          }
+        });
     },
   },
   watch: {

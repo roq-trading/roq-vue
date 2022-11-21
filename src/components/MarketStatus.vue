@@ -34,7 +34,12 @@ export default {
         .get(
           `${this.prefix}/${this.gateway}/market_status/${this.exchange}/${this.symbol}`
         )
-        .then((response) => (this.market_status = response.data));
+        .then((response) => (this.market_status = response.data))
+        .catch((error) => {
+          if (error.response.status != 404) {
+            console.log(error.response.status);
+          }
+        });
     },
   },
   watch: {

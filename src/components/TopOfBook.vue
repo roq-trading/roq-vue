@@ -41,7 +41,12 @@ export default {
         .get(
           `${this.prefix}/${this.gateway}/top_of_book/${this.exchange}/${this.symbol}`
         )
-        .then((response) => (this.top_of_book = response.data));
+        .then((response) => (this.top_of_book = response.data))
+        .catch((error) => {
+          if (error.response.status != 404) {
+            console.log(error.response.status);
+          }
+        });
     },
   },
   watch: {
