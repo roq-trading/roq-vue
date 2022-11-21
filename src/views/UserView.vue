@@ -2,6 +2,8 @@
 import axios from "axios";
 import Parameters from "../components/Parameters.vue";
 import CustomMetrics from "../components/CustomMetrics.vue";
+import Orders from "../components/Orders.vue";
+import Trades from "../components/Trades.vue";
 defineProps({
   gateway: {
     type: String,
@@ -79,6 +81,12 @@ export default {
         :timer="timer"
         v-if="user"
       />
+    </div>
+    <div class="object">
+      <Orders :gateway="gateway" :user="user" :timer="timer" v-if="user" />
+    </div>
+    <div class="object">
+      <Trades :gateway="gateway" :user="user" :timer="timer" v-if="user" />
     </div>
   </div>
 </template>

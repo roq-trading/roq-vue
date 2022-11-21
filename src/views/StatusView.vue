@@ -1,6 +1,7 @@
 <script setup>
-import axios from "axios";
 import Session from "../components/Session.vue";
+import StreamStatus from "../components/StreamStatus.vue";
+import GatewayStatus from "../components/GatewayStatus.vue";
 defineProps({
   gateway: {
     type: String,
@@ -36,9 +37,17 @@ export default {
     <h2>Status</h2>
     <hr />
   </div>
-    <div class="object">
-      <Session :gateway="gateway"/>
-    </div>
+  <div class="container">
+  <div class="object">
+    <Session :gateway="gateway" :timer="timer" />
+  </div>
+  <div class="object">
+    <StreamStatus :gateway="gateway" :timer="timer" />
+  </div>
+  <div class="object">
+    <GatewayStatus :gateway="gateway" :timer="timer" />
+  </div>
+</div>
 </template>
 
 <style scoped>

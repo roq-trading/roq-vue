@@ -58,6 +58,7 @@ export default {
           }
         });
     },
+    toggle_filter() {},
   },
   watch: {
     user() {
@@ -74,15 +75,28 @@ export default {
   <div class="container">
     <h3>Parameters</h3>
     <div v-if="parameters">
-      <ag-grid-vue
-        style="width: 100%; height: 200px"
-        class="ag-theme-alpine-dark"
-        :columnDefs="headers"
-        :defaultColDef="default_headers"
-        :rowData="parameters"
-      >
-      </ag-grid-vue>
+      <input
+        type="checkbox"
+        id="filter"
+        value="false"
+        v-model="toggle_filter"
+      />
+      <label for="filter">Filter?</label>
+      <div class="grid">
+        <ag-grid-vue
+          style="width: 100%; height: 200px"
+          class="ag-theme-alpine-dark"
+          :columnDefs="headers"
+          :defaultColDef="default_headers"
+          :rowData="parameters"
+        >
+        </ag-grid-vue>
+      </div>
+      <button>
+        <a href=""> Submit</a>
+      </button>
     </div>
+    <div style="clear: both"></div>
   </div>
 </template>
 
@@ -101,6 +115,21 @@ td:nth-child(1) {
 td:nth-child(2) {
   text-align: right;
 }
-.test {
+.grid {
+  margin-bottom: 1em;
+}
+button {
+  border: 1px solid #7f0102;
+  background: black;
+  float: right;
+}
+button a {
+  color: #f0af0d;
+}
+button:hover {
+  background: #7f0102;
+}
+button:hover a {
+  color: white;
 }
 </style>
