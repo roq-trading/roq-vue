@@ -92,9 +92,7 @@ export default {
         >
         </ag-grid-vue>
       </div>
-      <button>
-        <a href=""> Submit</a>
-      </button>
+      <a href=""> Submit</a>
     </div>
     <div style="clear: both"></div>
   </div>
@@ -118,18 +116,19 @@ td:nth-child(2) {
 .grid {
   margin-bottom: 1em;
 }
-button {
+a {
+  display: block;
   border: 1px solid #7f0102;
   background: black;
-  float: right;
+  text-align: center;
 }
-button a {
+a {
   color: #f0af0d;
 }
-button:hover {
+a:hover {
   background: #7f0102;
 }
-button:hover a {
+a:hover {
   color: white;
 }
 </style>

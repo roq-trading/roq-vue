@@ -1,4 +1,5 @@
 <script setup>
+import Gateways from "../components/Gateways.vue";
 import { RouterLink } from "vue-router";
 </script>
 
@@ -35,43 +36,14 @@ export default {
 
 <template>
   <div class="title">
-    <h2>Gateways</h2>
+    <h2>Views</h2>
     <hr />
   </div>
   <div class="container">
-    <table>
-      <tr v-for="item in gateways" :key="item">
-        <td>{{ item }}</td>
-        <td>
-          <button>
-            <RouterLink :to="{ name: 'strategy', params: { gateway: item } }">
-              strategy
-            </RouterLink>
-          </button>
-        </td>
-        <td>
-          <button>
-            <RouterLink :to="{ name: 'public', params: { gateway: item } }">
-              public
-            </RouterLink>
-          </button>
-        </td>
-        <td>
-          <button>
-            <RouterLink :to="{ name: 'private', params: { gateway: item } }">
-              private
-            </RouterLink>
-          </button>
-        </td>
-        <td>
-          <button>
-            <RouterLink :to="{ name: 'status', params: { gateway: item } }">
-              status
-            </RouterLink>
-          </button>
-        </td>
-      </tr>
-    </table>
+    <div class="view">
+      <Gateways :gateways="gateways" />
+    </div>
+    <div class="view"></div>
   </div>
 </template>
 
@@ -100,6 +72,7 @@ td:nth-child(1) {
 button {
   border: 1px solid #7f0102;
   background: black;
+  font-size: 1.2em;
 }
 button a {
   color: #f0af0d;
