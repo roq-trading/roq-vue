@@ -23,7 +23,7 @@ export default {
   methods: {
     fetch_gateway_status() {
       axios
-        .get(`${this.prefix}/${this.gateway}/gateway_status`)
+        .get(`${this.prefix}/${this.gateway}/gateway_status?recursive=true`)
         .then((response) => (this.gateway_status = response.data))
         .catch((error) => {
           if (error.response.status != 404) {
@@ -46,6 +46,20 @@ export default {
 <template>
   <div class="container">
     <h3>Gateway Status</h3>
+    <table v-if="gateway_status">
+      <tr>
+        <th>account</th>
+        <th>supported</th>
+        <th>available</th>
+        <th>unavailable</th>
+      </tr>
+      <tr v-for="item in gateway_status" :key="item">
+        <td>{{ item.account }}</td>
+        <td>{{ item.supported }}</td>
+        <td>{{ item.available }}</td>
+        <td>{{ item.unavailable }}</td>
+      </tr>
+    </table>
   </div>
 </template>
 
@@ -55,11 +69,11 @@ export default {
   padding: 0.5em;
   background-color: black;
 }
-td {
-  padding: 0 0.5em 0 0.5em;
+table {
+  width: 100%;
+  background-color: black;
 }
-td:nth-child(1),
-td:nth-child(2) {
-  color: #f0af0d;
+td:nth-child(1) {
+  color: #d7d6d2;
 }
 </style>

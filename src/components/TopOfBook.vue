@@ -73,10 +73,18 @@ export default {
           <td class="ask" colspan="2">Ask</td>
         </tr>
         <tr>
-          <td class="bid" style="width: 25%">{{ top_of_book.layer.bid_quantity }}</td>
-          <td class="bid" style="width: 25%">{{ top_of_book.layer.bid_price }}</td>
-          <td class="ask" style="width: 25%">{{ top_of_book.layer.ask_price }}</td>
-          <td class="ask" style="width: 25%">{{ top_of_book.layer.ask_quantity }}</td>
+          <td class="bid" style="width: 25%">
+            {{ top_of_book.layer.bid_quantity }}
+          </td>
+          <td class="bid" style="width: 25%">
+            {{ top_of_book.layer.bid_price }}
+          </td>
+          <td class="ask" style="width: 25%">
+            {{ top_of_book.layer.ask_price }}
+          </td>
+          <td class="ask" style="width: 25%">
+            {{ top_of_book.layer.ask_quantity }}
+          </td>
         </tr>
       </table>
       <div v-if="top_of_book.exchange_time_utc">

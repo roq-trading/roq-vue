@@ -100,7 +100,8 @@ table {
   width: 100%;
   background-color: black;
 }
-td:nth-child(1), td:nth-child(2) {
+td:nth-child(1),
+td:nth-child(2) {
   color: #d7d6d2;
 }
 </style>
