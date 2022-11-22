@@ -129,6 +129,7 @@ export default {
           if (error.response.status != 404) {
             console.log(error.response.status);
           }
+          this.trades = null;
         });
     },
     toggle_filter() {},

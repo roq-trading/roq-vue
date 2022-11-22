@@ -19,3 +19,7 @@ export function format_helper(key, value) {
   if (typeof value === "number") return `${value}`; // TODO thousand separator
   return value;
 }
+
+export function split_supports(value) {
+  return _.split(value, "|");
+}

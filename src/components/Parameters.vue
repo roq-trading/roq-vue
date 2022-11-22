@@ -56,6 +56,7 @@ export default {
           if (error.response.status != 404) {
             console.log(error.response.status);
           }
+          this.parameters = null;
         });
     },
     toggle_filter() {},

@@ -1,5 +1,7 @@
 <script setup>
 import axios from "axios";
+import _ from "lodash";
+import { split_supports } from "./Format";
 defineProps({
   gateway: {
     type: String,
@@ -24,11 +26,18 @@ export default {
     fetch_stream_status() {
       axios
         .get(`${this.prefix}/${this.gateway}/stream_status?recursive=true`)
-        .then((response) => (this.stream_status = response.data))
+        .then((response) => {
+          this.stream_status = _.sortBy(response.data, [
+            function (obj) {
+              return obj.stream_id;
+            },
+          ]);
+        })
         .catch((error) => {
           if (error.response.status != 404) {
             console.log(error.response.status);
           }
+          this.stream_status = null;
         });
     },
   },
@@ -60,7 +69,7 @@ export default {
       <tr v-for="item in stream_status" :key="item">
         <td>{{ item.stream_id }}</td>
         <td>{{ item.account }}</td>
-        <td>{{ item.supports }}</td>
+        <td>{{ split_supports(item.supports) }}</td>
         <td>{{ item.transport }}</td>
         <td>{{ item.protocol }}</td>
         <td>{{ item.encoding }}</td>
@@ -82,7 +91,15 @@ export default {
 }
 table {
   width: 100%;
-  background-color: black;
+  border-collapse: collapse;
+}
+th,
+td {
+  padding: 0.2em;
+}
+th {
+  color: #99969f;
+  text-align: left;
 }
 td:nth-child(1) {
   color: #d7d6d2;

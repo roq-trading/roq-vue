@@ -1,8 +1,5 @@
 <script setup>
 import axios from "axios";
-import "ag-grid-community/styles//ag-grid.css";
-import "ag-grid-community/styles//ag-theme-alpine.css";
-import { AgGridVue } from "ag-grid-vue3";
 defineProps({
   gateway: {
     type: String,
@@ -21,46 +18,24 @@ defineProps({
 
 <script>
 export default {
-  components: {
-    AgGridVue,
-  },
   data() {
     return {
       prefix: "http://192.168.188.70/roq/gateway",
       custom_metrics: null,
-      headers: [
-        { headerName: "label", field: "label", filter: "agTextColumnFilter" },
-        {
-          headerName: "account",
-          field: "account",
-          filter: "agTextColumnFilter",
-        },
-        {
-          headerName: "exchange",
-          field: "exchange",
-          filter: "agTextColumnFilter",
-        },
-        { headerName: "symbol", field: "symbol", filter: "agTextColumnFilter" },
-        { headerName: "key", field: "key", filter: false },
-        { headerName: "value", field: "value", filter: false },
-      ],
-      default_headers: {
-        flex: 1,
-        minWidth: 200,
-        resizable: true,
-        floatingFilter: true,
-      },
     };
   },
   methods: {
     fetch_custom_metrics() {
       axios
-        .get(`${this.prefix}/${this.gateway}/custom_metrics/${this.user}`)
+        .get(
+          `${this.prefix}/${this.gateway}/custom_metrics/${this.user}?recursive=true`
+        )
         .then((response) => (this.custom_metrics = response.data))
         .catch((error) => {
           if (error.response.status != 404) {
             console.log(error.response.status);
           }
+          this.custom_metrics = null;
         });
     },
   },
@@ -81,16 +56,37 @@ export default {
 <template>
   <div class="container">
     <h3>Custom Metrics</h3>
-    <div v-if="custom_metrics">
-      <ag-grid-vue
-        style="width: 100%; height: 200px"
-        class="ag-theme-alpine-dark"
-        :columnDefs="headers"
-        :defaultColDef="defaultColDef"
-        :rowData="parameters"
-      >
-      </ag-grid-vue>
-    </div>
+    <table v-if="custom_metrics">
+      <tr>
+        <th>label</th>
+        <th>account</th>
+        <th>exchange</th>
+        <th>symbol</th>
+        <th>key</th>
+        <th>value</th>
+      </tr>
+      <template v-for="item in custom_metrics" :key="item">
+        <tr
+          v-for="(measurement, index) in item.measurements"
+          :key="measurement"
+        >
+          <template v-if="index === 0">
+            <td>{{ item.label }}</td>
+            <td>{{ item.account }}</td>
+            <td>{{ item.exchange }}</td>
+            <td>{{ item.symbol }}</td>
+          </template>
+          <template v-else>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </template>
+          <td>{{ measurement.name }}</td>
+          <td>{{ measurement.value }}</td>
+        </tr>
+      </template>
+    </table>
   </div>
 </template>
 
@@ -100,10 +96,19 @@ export default {
   padding: 0.5em;
   background-color: black;
 }
+table {
+  width: 100%;
+  background-color: black;
+}
+th,
 td {
-  padding: 0 0.5em 0 0.5em;
+  padding: 0.2em;
+}
+th {
+  color: #99969f;
+  text-align: left;
 }
 td:nth-child(1) {
-  color: #f0af0d;
+  color: #d7d6d2;
 }
 </style>

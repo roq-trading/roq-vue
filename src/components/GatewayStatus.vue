@@ -1,5 +1,6 @@
 <script setup>
 import axios from "axios";
+import { split_supports } from "./Format";
 defineProps({
   gateway: {
     type: String,
@@ -29,6 +30,7 @@ export default {
           if (error.response.status != 404) {
             console.log(error.response.status);
           }
+          this.gateway_status = null;
         });
     },
   },
@@ -55,9 +57,9 @@ export default {
       </tr>
       <tr v-for="item in gateway_status" :key="item">
         <td>{{ item.account }}</td>
-        <td>{{ item.supported }}</td>
-        <td>{{ item.available }}</td>
-        <td>{{ item.unavailable }}</td>
+        <td>{{ split_supports(item.supported) }}</td>
+        <td>{{ split_supports(item.available) }}</td>
+        <td>{{ split_supports(item.unavailable) }}</td>
       </tr>
     </table>
   </div>
@@ -72,6 +74,14 @@ export default {
 table {
   width: 100%;
   background-color: black;
+}
+th,
+td {
+  padding: 0.2em;
+}
+th {
+  color: #99969f;
+  text-align: left;
 }
 td:nth-child(1) {
   color: #d7d6d2;
