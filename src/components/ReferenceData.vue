@@ -1,7 +1,7 @@
 <script setup>
 import axios from "axios";
-import dayjs from "dayjs";
 import _ from "lodash";
+import { format_helper } from "./Format";
 defineProps({
   gateway: {
     type: String,
@@ -31,22 +31,6 @@ export default {
     };
   },
   methods: {
-    format_date(value) {
-      if (_.isNil(value)) return;
-      const date = dayjs(value);
-      return date.format("YYYY-MM-DD");
-    },
-    format_datetime(value) {
-      if (_.isNil(value)) return;
-      const date = dayjs(value);
-      return date.format("YYYY-MM-DD hh:mm:ss");
-    },
-    format_helper(key, value) {
-      if (_.includes(key, "datetime")) return this.format_datetime(value);
-      if (_.includes(key, "date")) return this.format_date(value);
-      if (typeof value === "number") return `${value}`; // TODO thousand separator
-      return value;
-    },
     fetch_reference_data() {
       axios
         .get(

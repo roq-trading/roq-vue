@@ -1,7 +1,5 @@
 <script setup>
-import Session from "../components/Session.vue";
-import StreamStatus from "../components/StreamStatus.vue";
-import GatewayStatus from "../components/GatewayStatus.vue";
+import axios from "axios";
 defineProps({
   gateway: {
     type: String,
@@ -16,6 +14,8 @@ export default {
     return {
       prefix: "http://192.168.188.70/roq/gateway",
       timer: new Date(),
+      accounts: [],
+      account: null,
     };
   },
   methods: {
@@ -25,28 +25,41 @@ export default {
         this.refresh_timer();
       }, 5000);
     },
+    fetch_accounts() {
+      axios
+        .get(`${this.prefix}/${this.gateway}/accounts`)
+        .then((response) => (this.accounts = response.data));
+    },
   },
   mounted: function () {
     this.refresh_timer();
+    this.fetch_accounts();
   },
 };
 </script>
 
 <template>
   <div class="title">
-    <h2>Status</h2>
+    <h2>Context</h2>
     <hr />
   </div>
   <div class="container">
-    <div class="object">
-      <GatewayStatus :gateway="gateway" :timer="timer" />
+    <div class="context">
+      <div class="selector">
+        <h3>Account</h3>
+        <select v-model="account" class="form-control" size="4">
+          <option v-for="item in accounts" :key="item">{{ item }}</option>
+        </select>
+      </div>
     </div>
-    <div class="object">
-      <StreamStatus :gateway="gateway" :timer="timer" />
-    </div>
-    <div class="object">
-      <Session :gateway="gateway" :timer="timer" />
-    </div>
+  </div>
+  <div class="container">
+    <p v-if="account">{{ gateway }} / {{ account }}</p>
+    <p v-else>{{ gateway }}</p>
+  </div>
+  <div class="title" v-if="account">
+    <h2>Private</h2>
+    <hr />
   </div>
 </template>
 
@@ -74,9 +87,9 @@ hr {
 .selector {
   vertical-align: text-top;
 }
-.user {
+.market {
   display: grid;
-  grid-template-columns: 100%;
+  grid-template-columns: 50% 50%;
 }
 .object {
 }

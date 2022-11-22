@@ -1,5 +1,6 @@
 <script setup>
 import axios from "axios";
+import { format_helper } from "./Format";
 defineProps({
   gateway: {
     type: String,
@@ -57,6 +58,18 @@ export default {
         <td v-if="index === 0">session</td>
         <td v-else></td>
         <td>{{ key }}</td>
+        <td v-if="key === 'event_logs'">
+          <div v-for="(value_2, key_2) in value" :key="key_2">
+            <p>{{ value_2 }} [{{ key_2 }}]</p>
+          </div>
+        </td>
+        <td v-else>{{ value }}</td>
+      </tr>
+      <!--- host.network --->
+      <tr v-for="(value, key, index) in session.host.network" :key="key">
+        <td v-if="index === 0">network</td>
+        <td v-else></td>
+        <td>{{ key }}</td>
         <td>{{ value }}</td>
       </tr>
       <!--- host.kernel --->
@@ -66,19 +79,12 @@ export default {
         <td>{{ key }}</td>
         <td>{{ value }}</td>
       </tr>
-      <!--- host.network --->
-      <tr v-for="(value, key, index) in session.host.network" :key="key">
-        <td v-if="index === 0">network</td>
-        <td v-else></td>
-        <td>{{ key }}</td>
-        <td>{{ value }}</td>
-      </tr>
       <!--- process --->
       <tr v-for="(value, key, index) in session.process" :key="key">
         <td v-if="index === 0">process</td>
         <td v-else></td>
         <td>{{ key }}</td>
-        <td>{{ value }}</td>
+        <td>{{ format_helper(key, value) }}</td>
       </tr>
     </table>
   </div>

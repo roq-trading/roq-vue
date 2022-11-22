@@ -67,7 +67,7 @@ export default {
     <p v-else>{{ gateway }}</p>
   </div>
   <div class="title" v-if="user">
-    <h2>User</h2>
+    <h2>Strategy</h2>
     <hr />
   </div>
   <div class="user">

@@ -44,22 +44,29 @@ export default {
         <td>{{ item }}</td>
         <td>
           <button>
+            <RouterLink :to="{ name: 'strategy', params: { gateway: item } }">
+              strategy
+            </RouterLink>
+          </button>
+        </td>
+        <td>
+          <button>
+            <RouterLink :to="{ name: 'public', params: { gateway: item } }">
+              public
+            </RouterLink>
+          </button>
+        </td>
+        <td>
+          <button>
+            <RouterLink :to="{ name: 'private', params: { gateway: item } }">
+              private
+            </RouterLink>
+          </button>
+        </td>
+        <td>
+          <button>
             <RouterLink :to="{ name: 'status', params: { gateway: item } }">
               status
-            </RouterLink>
-          </button>
-        </td>
-        <td>
-          <button>
-            <RouterLink :to="{ name: 'market', params: { gateway: item } }">
-              market
-            </RouterLink>
-          </button>
-        </td>
-        <td>
-          <button>
-            <RouterLink :to="{ name: 'user', params: { gateway: item } }">
-              user
             </RouterLink>
           </button>
         </td>

@@ -86,7 +86,7 @@ export default {
     <p v-else>{{ gateway }}</p>
   </div>
   <div class="title" v-if="symbol">
-    <h2>Market</h2>
+    <h2>Public</h2>
     <hr />
   </div>
   <div class="market">
