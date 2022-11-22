@@ -90,13 +90,11 @@ export default {
   padding: 0.5em;
   background-color: black;
 }
-td {
-  padding: 0 0.5em 0 0.5em;
+table {
+  width: 100%;
+  background-color: black;
 }
 td:nth-child(1) {
-  color: #f0af0d;
-}
-td:nth-child(2) {
-  text-align: right;
+  color: #d7d6d2;
 }
 </style>

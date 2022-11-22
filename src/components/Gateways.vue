@@ -69,7 +69,7 @@ a {
 a:hover {
   background: #7f0102;
 }
-a:hove {
+a:hover {
   color: white;
 }
 </style>

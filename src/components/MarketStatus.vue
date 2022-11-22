@@ -62,8 +62,10 @@ export default {
     <div v-if="market_status">
       <table>
         <tr>
-          <td>trading_status</td>
-          <td>{{ market_status.trading_status }}</td>
+          <td v-if="market_status.trading_status === 'OPEN'" class="ready">
+            {{ market_status.trading_status }}
+          </td>
+          <td v-else class="not_ready">{{ market_status.trading_status }}</td>
         </tr>
       </table>
     </div>
@@ -76,13 +78,17 @@ export default {
   padding: 0.5em;
   background-color: black;
 }
+table {
+  width: 100%;
+  background-color: black;
+}
 td {
-  padding: 0 0.5em 0 0.5em;
+  text-align: center;
 }
-td:nth-child(1) {
-  color: #f0af0d;
+.ready {
+  background-color: green;
 }
-td:nth-child(2) {
-  text-align: right;
+.not_ready {
+  background-color: yellow;
 }
 </style>

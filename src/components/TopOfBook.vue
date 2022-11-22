@@ -68,16 +68,20 @@ export default {
     <h3>Top of Book</h3>
     <div v-if="top_of_book">
       <table>
-        <tr v-for="(value, key) in top_of_book.layer" :key="key">
-          <td>{{ key }}</td>
-          <td>{{ value }}</td>
+        <tr>
+          <td class="bid" colspan="2">Bid</td>
+          <td class="ask" colspan="2">Ask</td>
+        </tr>
+        <tr>
+          <td class="bid" style="width: 25%">{{ top_of_book.layer.bid_quantity }}</td>
+          <td class="bid" style="width: 25%">{{ top_of_book.layer.bid_price }}</td>
+          <td class="ask" style="width: 25%">{{ top_of_book.layer.ask_price }}</td>
+          <td class="ask" style="width: 25%">{{ top_of_book.layer.ask_quantity }}</td>
         </tr>
       </table>
       <div v-if="top_of_book.exchange_time_utc">
-        <i
-          >Exchange time:
-          {{ format_datetime(top_of_book.exchange_time_utc) }}</i
-        >
+        Exchange time:
+        {{ format_datetime(top_of_book.exchange_time_utc) }}
       </div>
     </div>
   </div>
@@ -89,13 +93,19 @@ export default {
   padding: 0.5em;
   background-color: black;
 }
+table {
+  width: 100%;
+  background-color: black;
+}
 td {
   padding: 0 0.5em 0 0.5em;
+  text-align: center;
+  color: black;
 }
-td:nth-child(1) {
-  color: #f0af0d;
+.bid {
+  background-color: lightblue;
 }
-td:nth-child(2) {
-  text-align: right;
+.ask {
+  background-color: pink;
 }
 </style>
