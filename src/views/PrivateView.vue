@@ -1,5 +1,6 @@
 <script setup>
 import axios from "axios";
+import { get_prefix } from "../components/Format";
 defineProps({
   gateway: {
     type: String,
@@ -12,7 +13,6 @@ defineProps({
 export default {
   data() {
     return {
-      prefix: "http://192.168.188.70/roq/gateway",
       timer: new Date(),
       accounts: [],
       account: null,
@@ -27,7 +27,7 @@ export default {
     },
     fetch_accounts() {
       axios
-        .get(`${this.prefix}/${this.gateway}/accounts`)
+        .get(`${get_prefix()}/${this.gateway}/accounts`)
         .then((response) => (this.accounts = response.data));
     },
   },

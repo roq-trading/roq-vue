@@ -1,5 +1,6 @@
 <script setup>
 import axios from "axios";
+import { get_prefix } from "./Format";
 defineProps({
   gateway: {
     type: String,
@@ -20,7 +21,6 @@ defineProps({
 export default {
   data() {
     return {
-      prefix: "http://192.168.188.70/roq/gateway",
       custom_metrics: null,
     };
   },
@@ -28,7 +28,9 @@ export default {
     fetch_custom_metrics() {
       axios
         .get(
-          `${this.prefix}/${this.gateway}/custom_metrics/${this.user}?recursive=true`
+          `${get_prefix()}/${this.gateway}/custom_metrics/${
+            this.user
+          }?recursive=true`
         )
         .then((response) => (this.custom_metrics = response.data))
         .catch((error) => {

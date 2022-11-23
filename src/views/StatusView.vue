@@ -14,7 +14,6 @@ defineProps({
 export default {
   data() {
     return {
-      prefix: "http://192.168.188.70/roq/gateway",
       timer: new Date(),
     };
   },

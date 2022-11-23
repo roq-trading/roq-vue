@@ -1,5 +1,6 @@
 <script setup>
 import axios from "axios";
+import { get_prefix } from "./Format";
 defineProps({
   gateway: {
     type: String,
@@ -24,7 +25,6 @@ defineProps({
 export default {
   data() {
     return {
-      prefix: "http://192.168.188.70/roq/gateway",
       market_status: null,
     };
   },
@@ -32,7 +32,9 @@ export default {
     fetch_market_status() {
       axios
         .get(
-          `${this.prefix}/${this.gateway}/market_status/${this.exchange}/${this.symbol}`
+          `${get_prefix()}/${this.gateway}/market_status/${this.exchange}/${
+            this.symbol
+          }`
         )
         .then((response) => (this.market_status = response.data))
         .catch((error) => {

@@ -23,3 +23,9 @@ export function format_helper(key, value) {
 export function split_supports(value) {
   return _.split(value, "|");
 }
+
+export function get_prefix() {
+  if (typeof import.meta.env.VITE_ROQ_URL === "undefined")
+    return window.location.origin;
+  return `${import.meta.env.VITE_ROQ_URL}`;
+}

@@ -2,6 +2,7 @@
 import axios from "axios";
 import dayjs from "dayjs";
 import _ from "lodash";
+import { get_prefix } from "./Format";
 defineProps({
   gateway: {
     type: String,
@@ -26,7 +27,6 @@ defineProps({
 export default {
   data() {
     return {
-      prefix: "http://192.168.188.70/roq/gateway",
       top_of_book: null,
     };
   },
@@ -39,7 +39,9 @@ export default {
     fetch_top_of_book() {
       axios
         .get(
-          `${this.prefix}/${this.gateway}/top_of_book/${this.exchange}/${this.symbol}`
+          `${get_prefix()}/${this.gateway}/top_of_book/${this.exchange}/${
+            this.symbol
+          }`
         )
         .then((response) => (this.top_of_book = response.data))
         .catch((error) => {

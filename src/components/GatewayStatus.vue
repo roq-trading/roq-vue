@@ -1,6 +1,6 @@
 <script setup>
 import axios from "axios";
-import { split_supports } from "./Format";
+import { get_prefix, split_supports } from "./Format";
 defineProps({
   gateway: {
     type: String,
@@ -17,14 +17,13 @@ defineProps({
 export default {
   data() {
     return {
-      prefix: "http://192.168.188.70/roq/gateway",
       gateway_status: null,
     };
   },
   methods: {
     fetch_gateway_status() {
       axios
-        .get(`${this.prefix}/${this.gateway}/gateway_status?recursive=true`)
+        .get(`${get_prefix()}/${this.gateway}/gateway_status?recursive=true`)
         .then((response) => (this.gateway_status = response.data))
         .catch((error) => {
           if (error.response.status != 404) {

@@ -5,6 +5,7 @@ import MarketStatus from "../components/MarketStatus.vue";
 import TopOfBook from "../components/TopOfBook.vue";
 import Statistics from "../components/Statistics.vue";
 import _ from "lodash";
+import { get_prefix } from "../components/Format";
 defineProps({
   gateway: {
     type: String,
@@ -17,7 +18,6 @@ defineProps({
 export default {
   data() {
     return {
-      prefix: "http://192.168.188.70/roq/gateway",
       timer: new Date(),
       exchanges: [],
       exchange: null,
@@ -36,12 +36,12 @@ export default {
     },
     fetch_exchanges() {
       axios
-        .get(`${this.prefix}/${this.gateway}/top_of_book`)
+        .get(`${get_prefix()}/${this.gateway}/top_of_book`)
         .then((response) => (this.exchanges = response.data));
     },
     fetch_symbols() {
       axios
-        .get(`${this.prefix}/${this.gateway}/top_of_book/${this.exchange}`)
+        .get(`${get_prefix()}/${this.gateway}/top_of_book/${this.exchange}`)
         .then((response) => (this.symbols = _.sortBy(response.data)));
     },
   },

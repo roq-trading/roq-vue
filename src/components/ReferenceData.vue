@@ -1,7 +1,7 @@
 <script setup>
 import axios from "axios";
 import _ from "lodash";
-import { format_helper } from "./Format";
+import { get_prefix, format_helper } from "./Format";
 defineProps({
   gateway: {
     type: String,
@@ -26,7 +26,6 @@ defineProps({
 export default {
   data() {
     return {
-      prefix: "http://192.168.188.70/roq/gateway",
       reference_data: null,
     };
   },
@@ -34,7 +33,9 @@ export default {
     fetch_reference_data() {
       axios
         .get(
-          `${this.prefix}/${this.gateway}/reference_data/${this.exchange}/${this.symbol}`
+          `${get_prefix()}/${this.gateway}/reference_data/${this.exchange}/${
+            this.symbol
+          }`
         )
         .then(
           (response) =>

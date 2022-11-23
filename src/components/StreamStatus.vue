@@ -1,7 +1,7 @@
 <script setup>
 import axios from "axios";
 import _ from "lodash";
-import { split_supports } from "./Format";
+import { get_prefix, split_supports } from "./Format";
 defineProps({
   gateway: {
     type: String,
@@ -18,14 +18,13 @@ defineProps({
 export default {
   data() {
     return {
-      prefix: "http://192.168.188.70/roq/gateway",
       stream_status: null,
     };
   },
   methods: {
     fetch_stream_status() {
       axios
-        .get(`${this.prefix}/${this.gateway}/stream_status?recursive=true`)
+        .get(`${get_prefix()}/${this.gateway}/stream_status?recursive=true`)
         .then((response) => {
           this.stream_status = _.sortBy(response.data, [
             function (obj) {

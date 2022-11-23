@@ -1,6 +1,6 @@
 <script setup>
 import axios from "axios";
-import { format_helper } from "./Format";
+import { get_prefix, format_helper } from "./Format";
 defineProps({
   gateway: {
     type: String,
@@ -13,14 +13,13 @@ defineProps({
 export default {
   data() {
     return {
-      prefix: "http://192.168.188.70/roq/gateway",
       session: null,
     };
   },
   methods: {
     fetch_session() {
       axios
-        .get(`${this.prefix}/${this.gateway}/session`)
+        .get(`${get_prefix()}/${this.gateway}/session`)
         .then((response) => (this.session = response.data))
         .catch((error) => {
           if (error.response.status != 404) {

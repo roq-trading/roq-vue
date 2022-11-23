@@ -4,6 +4,7 @@ import Parameters from "../components/Parameters.vue";
 import CustomMetrics from "../components/CustomMetrics.vue";
 import Orders from "../components/Orders.vue";
 import Trades from "../components/Trades.vue";
+import { get_prefix } from "../components/Format";
 defineProps({
   gateway: {
     type: String,
@@ -16,7 +17,6 @@ defineProps({
 export default {
   data() {
     return {
-      prefix: "http://192.168.188.70/roq/gateway",
       timer: new Date(),
       users: null,
       user: null,
@@ -31,7 +31,7 @@ export default {
     },
     fetch_users() {
       axios
-        .get(`${this.prefix}/${this.gateway}/users`)
+        .get(`${get_prefix()}/${this.gateway}/users`)
         .then((response) => (this.users = response.data));
     },
   },

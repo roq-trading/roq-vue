@@ -3,6 +3,7 @@ import axios from "axios";
 import "ag-grid-community/styles//ag-grid.css";
 import "ag-grid-community/styles//ag-theme-alpine.css";
 import { AgGridVue } from "ag-grid-vue3";
+import { get_prefix } from "./Format";
 defineProps({
   gateway: {
     type: String,
@@ -26,7 +27,6 @@ export default {
   },
   data() {
     return {
-      prefix: "http://192.168.188.70/roq/gateway",
       // trades: null,
       trades: [
         {
@@ -123,7 +123,7 @@ export default {
   methods: {
     fetch_trades() {
       axios
-        .get(`${this.prefix}/${this.gateway}/trades/${this.user}`)
+        .get(`${get_prefix()}/${this.gateway}/trades/${this.user}`)
         .then((response) => (this.trades = response.data))
         .catch((error) => {
           if (error.response.status != 404) {

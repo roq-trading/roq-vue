@@ -3,6 +3,7 @@ import axios from "axios";
 import "ag-grid-community/styles//ag-grid.css";
 import "ag-grid-community/styles//ag-theme-alpine.css";
 import { AgGridVue } from "ag-grid-vue3";
+import { get_prefix } from "./Format";
 defineProps({
   gateway: {
     type: String,
@@ -22,7 +23,6 @@ export default {
   },
   data() {
     return {
-      prefix: "http://192.168.188.70/roq/gateway",
       parameters: null,
       headers: [
         { headerName: "label", field: "label", filter: "agTextColumnFilter" },
@@ -50,7 +50,7 @@ export default {
   methods: {
     fetch_parameters() {
       axios
-        .get(`${this.prefix}/${this.gateway}/parameters/${this.user}/foo`)
+        .get(`${get_prefix()}/${this.gateway}/parameters/${this.user}/foo`)
         .then((response) => (this.parameters = response.data))
         .catch((error) => {
           if (error.response.status != 404) {
