@@ -123,7 +123,7 @@ export default {
   methods: {
     fetch_trades() {
       axios
-        .get(`${get_prefix()}/${this.gateway}/trades/${this.user}`)
+        .get(`${get_prefix()}/${this.gateway}/api/trades/${this.user}`)
         .then((response) => (this.trades = response.data))
         .catch((error) => {
           if (error.response.status != 404) {

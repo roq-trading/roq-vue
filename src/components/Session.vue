@@ -19,7 +19,7 @@ export default {
   methods: {
     fetch_session() {
       axios
-        .get(`${get_prefix()}/${this.gateway}/session`)
+        .get(`${get_prefix()}/${this.gateway}/api/session`)
         .then((response) => (this.session = response.data))
         .catch((error) => {
           if (error.response.status != 404) {

@@ -32,7 +32,7 @@ export default {
     fetch_market_status() {
       axios
         .get(
-          `${get_prefix()}/${this.gateway}/market_status/${this.exchange}/${
+          `${get_prefix()}/${this.gateway}/api/market_status/${this.exchange}/${
             this.symbol
           }`
         )

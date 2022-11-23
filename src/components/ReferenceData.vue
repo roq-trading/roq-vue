@@ -33,7 +33,7 @@ export default {
     fetch_reference_data() {
       axios
         .get(
-          `${get_prefix()}/${this.gateway}/reference_data/${this.exchange}/${
+          `${get_prefix()}/${this.gateway}/api/reference_data/${this.exchange}/${
             this.symbol
           }`
         )

@@ -23,7 +23,7 @@ export default {
   methods: {
     fetch_gateway_status() {
       axios
-        .get(`${get_prefix()}/${this.gateway}/gateway_status?recursive=true`)
+        .get(`${get_prefix()}/${this.gateway}/api/gateway_status?recursive=true`)
         .then((response) => (this.gateway_status = response.data))
         .catch((error) => {
           if (error.response.status != 404) {

@@ -50,7 +50,7 @@ export default {
   methods: {
     fetch_parameters() {
       axios
-        .get(`${get_prefix()}/${this.gateway}/parameters/${this.user}/foo`)
+        .get(`${get_prefix()}/${this.gateway}/api/parameters/${this.user}/foo`)
         .then((response) => (this.parameters = response.data))
         .catch((error) => {
           if (error.response.status != 404) {

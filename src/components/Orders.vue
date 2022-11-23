@@ -187,7 +187,7 @@ export default {
   methods: {
     fetch_orders() {
       axios
-        .get(`${get_prefix()}/${this.gateway}/orders/${this.user}`)
+        .get(`${get_prefix()}/${this.gateway}/api/orders/${this.user}`)
         .then((response) => (this.orders = response.data))
         .catch((error) => {
           if (error.response.status != 404) {

@@ -39,7 +39,7 @@ export default {
     fetch_statistics() {
       axios
         .get(
-          `${get_prefix()}/${this.gateway}/statistics/${this.exchange}/${
+          `${get_prefix()}/${this.gateway}/api/statistics/${this.exchange}/${
             this.symbol
           }`
         )

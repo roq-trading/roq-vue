@@ -36,12 +36,12 @@ export default {
     },
     fetch_exchanges() {
       axios
-        .get(`${get_prefix()}/${this.gateway}/top_of_book`)
+        .get(`${get_prefix()}/${this.gateway}/api/top_of_book`)
         .then((response) => (this.exchanges = response.data));
     },
     fetch_symbols() {
       axios
-        .get(`${get_prefix()}/${this.gateway}/top_of_book/${this.exchange}`)
+        .get(`${get_prefix()}/${this.gateway}/api/top_of_book/${this.exchange}`)
         .then((response) => (this.symbols = _.sortBy(response.data)));
     },
   },

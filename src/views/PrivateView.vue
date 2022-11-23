@@ -27,7 +27,7 @@ export default {
     },
     fetch_accounts() {
       axios
-        .get(`${get_prefix()}/${this.gateway}/accounts`)
+        .get(`${get_prefix()}/${this.gateway}/api/accounts`)
         .then((response) => (this.accounts = response.data));
     },
   },

@@ -39,7 +39,7 @@ export default {
     fetch_top_of_book() {
       axios
         .get(
-          `${get_prefix()}/${this.gateway}/top_of_book/${this.exchange}/${
+          `${get_prefix()}/${this.gateway}/api/top_of_book/${this.exchange}/${
             this.symbol
           }`
         )

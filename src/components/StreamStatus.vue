@@ -24,7 +24,7 @@ export default {
   methods: {
     fetch_stream_status() {
       axios
-        .get(`${get_prefix()}/${this.gateway}/stream_status?recursive=true`)
+        .get(`${get_prefix()}/${this.gateway}/api/stream_status?recursive=true`)
         .then((response) => {
           this.stream_status = _.sortBy(response.data, [
             function (obj) {

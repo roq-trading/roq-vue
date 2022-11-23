@@ -31,7 +31,7 @@ export default {
     },
     fetch_users() {
       axios
-        .get(`${get_prefix()}/${this.gateway}/users`)
+        .get(`${get_prefix()}/${this.gateway}/api/users`)
         .then((response) => (this.users = response.data));
     },
   },

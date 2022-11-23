@@ -28,7 +28,7 @@ export default {
     fetch_custom_metrics() {
       axios
         .get(
-          `${get_prefix()}/${this.gateway}/custom_metrics/${
+          `${get_prefix()}/${this.gateway}/api/custom_metrics/${
             this.user
           }?recursive=true`
         )
