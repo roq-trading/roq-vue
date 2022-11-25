@@ -1,12 +1,9 @@
 <script setup>
 import axios from "axios";
 import _ from "lodash";
-import { get_prefix, split_supports } from "./Format";
+import { create_url, split_supports } from "./Format";
 defineProps({
-  gateway: {
-    type: String,
-    required: true,
-  },
+  gateway: { type: String, required: false },
   timer: {
     type: Date,
     required: true,
@@ -23,8 +20,9 @@ export default {
   },
   methods: {
     fetch_stream_status() {
+      const path = "/api/stream_status?recursive=true";
       axios
-        .get(`${get_prefix()}/${this.gateway}/api/stream_status?recursive=true`)
+        .get(create_url(this.gateway, path))
         .then((response) => {
           this.stream_status = _.sortBy(response.data, [
             function (obj) {

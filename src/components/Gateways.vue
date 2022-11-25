@@ -1,7 +1,7 @@
 <script setup>
 defineProps({
   gateways: {
-    required: true,
+    required: false,
   },
 });
 </script>
@@ -13,24 +13,48 @@ defineProps({
       <tr v-for="item in gateways" :key="item">
         <td>{{ item }}</td>
         <td>
-          <RouterLink :to="{ name: 'strategy', params: { gateway: item } }">
+          <RouterLink
+            :to="{ name: 'strategy_by_gateway', params: { gateway: item } }"
+          >
             strategy
           </RouterLink>
         </td>
         <td>
-          <RouterLink :to="{ name: 'public', params: { gateway: item } }">
+          <RouterLink
+            :to="{ name: 'public_by_gateway', params: { gateway: item } }"
+          >
             public
           </RouterLink>
         </td>
         <td>
-          <RouterLink :to="{ name: 'private', params: { gateway: item } }">
+          <RouterLink
+            :to="{ name: 'private_by_gateway', params: { gateway: item } }"
+          >
             private
           </RouterLink>
         </td>
         <td>
-          <RouterLink :to="{ name: 'status', params: { gateway: item } }">
+          <RouterLink
+            :to="{ name: 'status_by_gateway', params: { gateway: item } }"
+          >
             status
           </RouterLink>
+        </td>
+      </tr>
+    </table>
+    <table v-else>
+      <tr>
+        <td>
+          <RouterLink :to="{ name: 'strategy' }"> strategy </RouterLink>
+        </td>
+        <td>
+          <RouterLink :to="{ name: 'public' }"> public </RouterLink>
+        </td>
+        <td>
+          <RouterLink :to="{ name: 'private' }"> private </RouterLink>
+        </td>
+        <td>
+          <RouterLink :to="{ name: 'status' }"> status </RouterLink>
         </td>
       </tr>
     </table>

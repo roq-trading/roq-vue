@@ -29,3 +29,9 @@ export function get_prefix() {
     return window.location.origin;
   return `${import.meta.env.VITE_ROQ_URL}`;
 }
+
+export function create_url(gateway, path) {
+  const prefix = get_prefix();
+  if (typeof gateway === "undefined") return `${prefix}/${path}`;
+  return `${prefix}/${gateway}/${path}`;
+}

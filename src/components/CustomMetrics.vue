@@ -1,10 +1,10 @@
 <script setup>
 import axios from "axios";
-import { get_prefix } from "./Format";
+import { create_url } from "./Format";
 defineProps({
   gateway: {
     type: String,
-    required: true,
+    required: false,
   },
   user: {
     type: String,
@@ -26,12 +26,9 @@ export default {
   },
   methods: {
     fetch_custom_metrics() {
+      const path = `/api/custom_metrics/${this.user}?recursive=true`;
       axios
-        .get(
-          `${get_prefix()}/${this.gateway}/api/custom_metrics/${
-            this.user
-          }?recursive=true`
-        )
+        .get(create_url(this.gateway, path))
         .then((response) => (this.custom_metrics = response.data))
         .catch((error) => {
           if (error.response.status != 404) {

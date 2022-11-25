@@ -5,11 +5,11 @@ import MarketStatus from "../components/MarketStatus.vue";
 import TopOfBook from "../components/TopOfBook.vue";
 import Statistics from "../components/Statistics.vue";
 import _ from "lodash";
-import { get_prefix } from "../components/Format";
+import { create_url } from "../components/Format";
 defineProps({
   gateway: {
     type: String,
-    required: true,
+    required: false,
   },
 });
 </script>
@@ -35,13 +35,15 @@ export default {
       }, 5000);
     },
     fetch_exchanges() {
+      const path = "/api/top_of_book";
       axios
-        .get(`${get_prefix()}/${this.gateway}/api/top_of_book`)
+        .get(create_url(this.gateway, path))
         .then((response) => (this.exchanges = response.data));
     },
     fetch_symbols() {
+      const path = `/api/top_of_book/${this.exchange}`;
       axios
-        .get(`${get_prefix()}/${this.gateway}/api/top_of_book/${this.exchange}`)
+        .get(create_url(this.gateway, path))
         .then((response) => (this.symbols = _.sortBy(response.data)));
     },
   },

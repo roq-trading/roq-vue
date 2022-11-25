@@ -4,11 +4,11 @@ import Parameters from "../components/Parameters.vue";
 import CustomMetrics from "../components/CustomMetrics.vue";
 import Orders from "../components/Orders.vue";
 import Trades from "../components/Trades.vue";
-import { get_prefix } from "../components/Format";
+import { create_url } from "../components/Format";
 defineProps({
   gateway: {
     type: String,
-    required: true,
+    required: false,
   },
 });
 </script>
@@ -30,8 +30,9 @@ export default {
       }, 5000);
     },
     fetch_users() {
+      const path = "/api/users";
       axios
-        .get(`${get_prefix()}/${this.gateway}/api/users`)
+        .get(create_url(this.gateway, path))
         .then((response) => (this.users = response.data));
     },
   },

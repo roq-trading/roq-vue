@@ -1,10 +1,10 @@
 <script setup>
 import axios from "axios";
-import { get_prefix } from "./Format";
+import { create_url } from "./Format";
 defineProps({
   gateway: {
     type: String,
-    required: true,
+    required: false,
   },
   exchange: {
     type: String,
@@ -30,12 +30,9 @@ export default {
   },
   methods: {
     fetch_market_status() {
+      const path = `/api/market_status/${this.exchange}/${this.symbol}`;
       axios
-        .get(
-          `${get_prefix()}/${this.gateway}/api/market_status/${this.exchange}/${
-            this.symbol
-          }`
-        )
+        .get(create_url(this.gateway, path))
         .then((response) => (this.market_status = response.data))
         .catch((error) => {
           if (error.response.status != 404) {

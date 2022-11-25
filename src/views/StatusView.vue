@@ -5,7 +5,7 @@ import GatewayStatus from "../components/GatewayStatus.vue";
 defineProps({
   gateway: {
     type: String,
-    required: true,
+    required: false,
   },
 });
 </script>

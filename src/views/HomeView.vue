@@ -1,14 +1,13 @@
 <script setup>
 import Gateways from "../components/Gateways.vue";
-import { RouterLink } from "vue-router";
 </script>
 
 <script>
 export default {
   data() {
     return {
-      gateway: null,
-      gateways: [
+      gateways: null,
+      gateways_2: [
         "binance",
         "binance-futures",
         "bitfinex",

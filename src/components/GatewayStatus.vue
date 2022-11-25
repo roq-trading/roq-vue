@@ -1,10 +1,10 @@
 <script setup>
 import axios from "axios";
-import { get_prefix, split_supports } from "./Format";
+import { create_url, split_supports } from "./Format";
 defineProps({
   gateway: {
     type: String,
-    required: true,
+    required: false,
   },
   timer: {
     type: Date,
@@ -22,8 +22,9 @@ export default {
   },
   methods: {
     fetch_gateway_status() {
+      const path = "/api/gateway_status?recursive=true";
       axios
-        .get(`${get_prefix()}/${this.gateway}/api/gateway_status?recursive=true`)
+        .get(create_url(this.gateway, path))
         .then((response) => (this.gateway_status = response.data))
         .catch((error) => {
           if (error.response.status != 404) {

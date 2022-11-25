@@ -1,10 +1,10 @@
 <script setup>
 import axios from "axios";
-import { get_prefix } from "../components/Format";
+import { create_url } from "../components/Format";
 defineProps({
   gateway: {
     type: String,
-    required: true,
+    required: false,
   },
 });
 </script>
@@ -26,8 +26,9 @@ export default {
       }, 5000);
     },
     fetch_accounts() {
+      const path = "/api/accounts";
       axios
-        .get(`${get_prefix()}/${this.gateway}/api/accounts`)
+        .get(create_url(this.gateway, path))
         .then((response) => (this.accounts = response.data));
     },
   },

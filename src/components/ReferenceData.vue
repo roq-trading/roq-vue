@@ -1,11 +1,11 @@
 <script setup>
 import axios from "axios";
 import _ from "lodash";
-import { get_prefix, format_helper } from "./Format";
+import { create_url, format_helper } from "./Format";
 defineProps({
   gateway: {
     type: String,
-    required: true,
+    required: false,
   },
   exchange: {
     type: String,
@@ -31,12 +31,9 @@ export default {
   },
   methods: {
     fetch_reference_data() {
+      const path = `/api/reference_data/${this.exchange}/${this.symbol}`;
       axios
-        .get(
-          `${get_prefix()}/${this.gateway}/api/reference_data/${this.exchange}/${
-            this.symbol
-          }`
-        )
+        .get(create_url(this.gateway, path))
         .then(
           (response) =>
             (this.reference_data = _.omit(response.data, [

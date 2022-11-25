@@ -1,10 +1,10 @@
 <script setup>
 import axios from "axios";
-import { get_prefix, format_helper } from "./Format";
+import { create_url, format_helper } from "./Format";
 defineProps({
   gateway: {
     type: String,
-    required: true,
+    required: false,
   },
 });
 </script>
@@ -18,8 +18,9 @@ export default {
   },
   methods: {
     fetch_session() {
+      const path = "/api/session";
       axios
-        .get(`${get_prefix()}/${this.gateway}/api/session`)
+        .get(create_url(this.gateway, path))
         .then((response) => (this.session = response.data))
         .catch((error) => {
           if (error.response.status != 404) {

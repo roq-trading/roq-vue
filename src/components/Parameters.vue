@@ -3,11 +3,11 @@ import axios from "axios";
 import "ag-grid-community/styles//ag-grid.css";
 import "ag-grid-community/styles//ag-theme-alpine.css";
 import { AgGridVue } from "ag-grid-vue3";
-import { get_prefix } from "./Format";
+import { create_url } from "./Format";
 defineProps({
   gateway: {
     type: String,
-    required: true,
+    required: false,
   },
   user: {
     type: String,
@@ -49,8 +49,9 @@ export default {
   },
   methods: {
     fetch_parameters() {
+      const path = `/api/parameters/${this.user}/foo`;
       axios
-        .get(`${get_prefix()}/${this.gateway}/api/parameters/${this.user}/foo`)
+        .get(create_url(this.gateway, path))
         .then((response) => (this.parameters = response.data))
         .catch((error) => {
           if (error.response.status != 404) {
