@@ -1,7 +1,7 @@
 <script setup>
 import axios from "axios";
 import _ from "lodash";
-import { create_url, format_helper } from "./Format";
+import { create_url, format_helper } from "@/components/Utils";
 defineProps({
   gateway: {
     type: String,
@@ -32,8 +32,9 @@ export default {
   methods: {
     fetch_reference_data() {
       const path = `/api/reference_data/${this.exchange}/${this.symbol}`;
+      const url = create_url(path, this.gateway);
       axios
-        .get(create_url(this.gateway, path))
+        .get(url)
         .then(
           (response) =>
             (this.reference_data = _.omit(response.data, [
@@ -43,8 +44,13 @@ export default {
             ]))
         )
         .catch((error) => {
-          if (error.response.status != 404) {
-            console.log(error.response.status);
+          if (error.response) {
+            if (error.response.status == 404) this.reference_data = null;
+            else console.log(error.response);
+          } else if (error.request) {
+            console.log(error.request);
+          } else {
+            console.log("Error:", error.message);
           }
         });
     },

@@ -8,56 +8,61 @@ defineProps({
 
 <template>
   <div class="container">
-    <h3>Gateways</h3>
-    <table v-if="gateways">
-      <tr v-for="item in gateways" :key="item">
-        <td>{{ item }}</td>
-        <td>
-          <RouterLink
-            :to="{ name: 'strategy_by_gateway', params: { gateway: item } }"
-          >
-            strategy
-          </RouterLink>
-        </td>
-        <td>
-          <RouterLink
-            :to="{ name: 'public_by_gateway', params: { gateway: item } }"
-          >
-            public
-          </RouterLink>
-        </td>
-        <td>
-          <RouterLink
-            :to="{ name: 'private_by_gateway', params: { gateway: item } }"
-          >
-            private
-          </RouterLink>
-        </td>
-        <td>
-          <RouterLink
-            :to="{ name: 'status_by_gateway', params: { gateway: item } }"
-          >
-            status
-          </RouterLink>
-        </td>
-      </tr>
-    </table>
-    <table v-else>
-      <tr>
-        <td>
-          <RouterLink :to="{ name: 'strategy' }"> strategy </RouterLink>
-        </td>
-        <td>
-          <RouterLink :to="{ name: 'public' }"> public </RouterLink>
-        </td>
-        <td>
-          <RouterLink :to="{ name: 'private' }"> private </RouterLink>
-        </td>
-        <td>
-          <RouterLink :to="{ name: 'status' }"> status </RouterLink>
-        </td>
-      </tr>
-    </table>
+    <template v-if="gateways">
+      <h3>Gateways</h3>
+      <table>
+        <tr v-for="item in gateways" :key="item">
+          <td>{{ item }}</td>
+          <td>
+            <RouterLink
+              :to="{ name: 'strategy_by_gateway', params: { gateway: item } }"
+            >
+              strategy
+            </RouterLink>
+          </td>
+          <td>
+            <RouterLink
+              :to="{ name: 'public_by_gateway', params: { gateway: item } }"
+            >
+              public
+            </RouterLink>
+          </td>
+          <td>
+            <RouterLink
+              :to="{ name: 'private_by_gateway', params: { gateway: item } }"
+            >
+              private
+            </RouterLink>
+          </td>
+          <td>
+            <RouterLink
+              :to="{ name: 'status_by_gateway', params: { gateway: item } }"
+            >
+              status
+            </RouterLink>
+          </td>
+        </tr>
+      </table>
+    </template>
+    <template v-else>
+      <h3>Gateway</h3>
+      <table>
+        <tr>
+          <td>
+            <RouterLink :to="{ name: 'strategy' }"> strategy </RouterLink>
+          </td>
+          <td>
+            <RouterLink :to="{ name: 'public' }"> public </RouterLink>
+          </td>
+          <td>
+            <RouterLink :to="{ name: 'private' }"> private </RouterLink>
+          </td>
+          <td>
+            <RouterLink :to="{ name: 'status' }"> status </RouterLink>
+          </td>
+        </tr>
+      </table>
+    </template>
   </div>
 </template>
 

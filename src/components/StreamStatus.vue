@@ -1,7 +1,7 @@
 <script setup>
 import axios from "axios";
 import _ from "lodash";
-import { create_url, split_supports } from "./Format";
+import { create_url, split_supports } from "@/components/Utils";
 defineProps({
   gateway: { type: String, required: false },
   timer: {
@@ -21,8 +21,9 @@ export default {
   methods: {
     fetch_stream_status() {
       const path = "/api/stream_status?recursive=true";
+      const url = create_url(path, this.gateway);
       axios
-        .get(create_url(this.gateway, path))
+        .get(url)
         .then((response) => {
           this.stream_status = _.sortBy(response.data, [
             function (obj) {
@@ -31,10 +32,14 @@ export default {
           ]);
         })
         .catch((error) => {
-          if (error.response.status != 404) {
-            console.log(error.response.status);
+          if (error.response) {
+            if (error.response.status == 404) this.stream_status = null;
+            else console.log(error.response);
+          } else if (error.request) {
+            console.log(error.request);
+          } else {
+            console.log("Error:", error.message);
           }
-          this.stream_status = null;
         });
     },
   },

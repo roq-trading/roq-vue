@@ -1,6 +1,6 @@
 <script setup>
 import axios from "axios";
-import { create_url } from "./Format";
+import { create_url } from "@/components/Utils";
 defineProps({
   gateway: {
     type: String,
@@ -31,12 +31,18 @@ export default {
   methods: {
     fetch_market_status() {
       const path = `/api/market_status/${this.exchange}/${this.symbol}`;
+      const url = create_url(path, this.gateway);
       axios
-        .get(create_url(this.gateway, path))
+        .get(url)
         .then((response) => (this.market_status = response.data))
         .catch((error) => {
-          if (error.response.status != 404) {
-            console.log(error.response.status);
+          if (error.response) {
+            if (error.response.status == 404) this.market_status = null;
+            else console.log(error.response);
+          } else if (error.request) {
+            console.log(error.request);
+          } else {
+            console.log("Error:", error.message);
           }
         });
     },

@@ -1,11 +1,11 @@
 <script setup>
 import axios from "axios";
-import ReferenceData from "../components/ReferenceData.vue";
-import MarketStatus from "../components/MarketStatus.vue";
-import TopOfBook from "../components/TopOfBook.vue";
-import Statistics from "../components/Statistics.vue";
+import ReferenceData from "@/components/ReferenceData.vue";
+import MarketStatus from "@/components/MarketStatus.vue";
+import TopOfBook from "@/components/TopOfBook.vue";
+import Statistics from "@/components/Statistics.vue";
 import _ from "lodash";
-import { create_url } from "../components/Format";
+import { create_url } from "@/components/Utils";
 defineProps({
   gateway: {
     type: String,
@@ -36,15 +36,37 @@ export default {
     },
     fetch_exchanges() {
       const path = "/api/top_of_book";
+      const url = create_url(path, this.gateway);
       axios
-        .get(create_url(this.gateway, path))
-        .then((response) => (this.exchanges = response.data));
+        .get(url)
+        .then((response) => (this.exchanges = response.data))
+        .catch((error) => {
+          if (error.response) {
+            if (error.response.status == 404) this.exchanges = null;
+            else console.log(error.response);
+          } else if (error.request) {
+            console.log(error.request);
+          } else {
+            console.log("Error:", error.message);
+          }
+        });
     },
     fetch_symbols() {
       const path = `/api/top_of_book/${this.exchange}`;
+      const url = create_url(path, this.gateway);
       axios
-        .get(create_url(this.gateway, path))
-        .then((response) => (this.symbols = _.sortBy(response.data)));
+        .get(url)
+        .then((response) => (this.symbols = _.sortBy(response.data)))
+        .catch((error) => {
+          if (error.response) {
+            if (error.response.status == 404) this.symbols = null;
+            else console.log(error.response);
+          } else if (error.request) {
+            console.log(error.request);
+          } else {
+            console.log("Error:", error.message);
+          }
+        });
     },
   },
   watch: {

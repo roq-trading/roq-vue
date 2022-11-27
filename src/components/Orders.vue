@@ -3,7 +3,7 @@ import axios from "axios";
 import "ag-grid-community/styles//ag-grid.css";
 import "ag-grid-community/styles//ag-theme-alpine.css";
 import { AgGridVue } from "ag-grid-vue3";
-import { create_url } from "./Format";
+import { create_url } from "@/components/Utils";
 defineProps({
   gateway: {
     type: String,
@@ -186,15 +186,20 @@ export default {
   },
   methods: {
     fetch_orders() {
-      const path = `/api/orders/${this.user}`;
+      const path = `/api/orders/${this.user}?recursive=true`;
+      const url = create_url(path, this.gateway);
       axios
-        .get(create_url(this.gateway, path))
+        .get(url)
         .then((response) => (this.orders = response.data))
         .catch((error) => {
-          if (error.response.status != 404) {
-            console.log(error.response.status);
+          if (error.response) {
+            if (error.response.status == 404) this.orders = null;
+            else console.log(error.response);
+          } else if (error.request) {
+            console.log(error.request);
+          } else {
+            console.log("Error:", error.message);
           }
-          this.orders = null;
         });
     },
     toggle_filter() {},

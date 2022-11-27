@@ -1,7 +1,7 @@
 <script setup>
-import Session from "../components/Session.vue";
-import StreamStatus from "../components/StreamStatus.vue";
-import GatewayStatus from "../components/GatewayStatus.vue";
+import Session from "@/components/Session.vue";
+import StreamStatus from "@/components/StreamStatus.vue";
+import GatewayStatus from "@/components/GatewayStatus.vue";
 defineProps({
   gateway: {
     type: String,

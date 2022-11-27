@@ -1,5 +1,7 @@
 <script setup>
-import Gateways from "../components/Gateways.vue";
+import axios from "axios";
+import Gateways from "@/components/Gateways.vue";
+import { create_url } from "@/components/Utils";
 </script>
 
 <script>
@@ -30,7 +32,31 @@ export default {
       ],
     };
   },
-  mounted: function () {},
+  methods: {
+    fetch_config() {
+      // note!
+      // multiple gateways can be supported when a configuration is provided
+      // this will then change the request paths for api calls
+      const path = "/config.json";
+      const url = create_url(path);
+      axios
+        .get(url)
+        .then((response) => (this.gateways = response.data))
+        .catch((error) => {
+          if (error.response) {
+            if (error.response.status == 404) {}
+            else console.log(error.response);
+          } else if (error.request) {
+            console.log(error.request);
+          } else {
+            console.log("Error:", error.message);
+          }
+        });
+    },
+  },
+  mounted: function () {
+    this.fetch_config();
+  },
 };
 </script>
 

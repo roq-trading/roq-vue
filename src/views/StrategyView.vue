@@ -1,10 +1,10 @@
 <script setup>
 import axios from "axios";
-import Parameters from "../components/Parameters.vue";
-import CustomMetrics from "../components/CustomMetrics.vue";
-import Orders from "../components/Orders.vue";
-import Trades from "../components/Trades.vue";
-import { create_url } from "../components/Format";
+import Parameters from "@/components/Parameters.vue";
+import CustomMetrics from "@/components/CustomMetrics.vue";
+import Orders from "@/components/Orders.vue";
+import Trades from "@/components/Trades.vue";
+import { create_url } from "@/components/Utils";
 defineProps({
   gateway: {
     type: String,
@@ -31,9 +31,20 @@ export default {
     },
     fetch_users() {
       const path = "/api/users";
+      const url = create_url(path, this.gateway);
       axios
-        .get(create_url(this.gateway, path))
-        .then((response) => (this.users = response.data));
+        .get(url)
+        .then((response) => (this.users = response.data))
+        .catch((error) => {
+          if (error.response) {
+            if (error.response.status == 404) this.users = null;
+            else console.log(error.response);
+          } else if (error.request) {
+            console.log(error.request);
+          } else {
+            console.log("Error:", error.message);
+          }
+        });
     },
   },
   watch: {
