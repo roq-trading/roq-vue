@@ -31,7 +31,7 @@ export default {
   },
   methods: {
     fetch_reference_data() {
-      const path = `/api/reference_data/${this.exchange}/${this.symbol}`;
+      const path = `/api/reference_data?exchange=${this.exchange}&symbol=${this.symbol}`;
       const url = create_url(path, this.gateway);
       axios
         .get(url)

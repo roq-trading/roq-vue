@@ -35,7 +35,7 @@ export default {
       }, 5000);
     },
     fetch_exchanges() {
-      const path = "/api/top_of_book";
+      const path = "/api/exchanges";
       const url = create_url(path, this.gateway);
       axios
         .get(url)
@@ -52,7 +52,7 @@ export default {
         });
     },
     fetch_symbols() {
-      const path = `/api/top_of_book/${this.exchange}`;
+      const path = `/api/markets?exchange=${this.exchange}`;
       const url = create_url(path, this.gateway);
       axios
         .get(url)

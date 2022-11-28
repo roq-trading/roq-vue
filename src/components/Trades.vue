@@ -122,7 +122,7 @@ export default {
   },
   methods: {
     fetch_trades() {
-      const path = `/api/trades/${this.user}?recursive=true`;
+      const path = `/api/trades?user=${this.user}&recursive=true`;
       const url = create_url(path, this.gateway);
       axios
         .get(url)

@@ -26,7 +26,7 @@ export default {
   },
   methods: {
     fetch_custom_metrics() {
-      const path = `/api/custom_metrics/${this.user}?recursive=true`;
+      const path = `/api/custom_metrics?user=${this.user}&recursive=true`;
       const url = create_url(path, this.gateway);
       axios
         .get(url)

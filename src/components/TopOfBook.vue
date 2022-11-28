@@ -37,7 +37,7 @@ export default {
       return date.format("YYYY-MM-DD hh:mm:ss");
     },
     fetch_top_of_book() {
-      const path = `/api/top_of_book/${this.exchange}/${this.symbol}`;
+      const path = `/api/top_of_book?exchange=${this.exchange}&symbol=${this.symbol}`;
       const url = create_url(path, this.gateway);
       axios
         .get(url)

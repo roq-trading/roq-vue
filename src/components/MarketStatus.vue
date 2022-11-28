@@ -30,7 +30,7 @@ export default {
   },
   methods: {
     fetch_market_status() {
-      const path = `/api/market_status/${this.exchange}/${this.symbol}`;
+      const path = `/api/market_status?exchange=${this.exchange}&symbol=${this.symbol}`;
       const url = create_url(path, this.gateway);
       axios
         .get(url)

@@ -49,7 +49,7 @@ export default {
   },
   methods: {
     fetch_parameters() {
-      const path = `/api/parameters/${this.user}?recursive=true`;
+      const path = `/api/parameters?user=${this.user}&recursive=true`;
       const url = create_url(path, this.gateway);
       axios
         .get(url)
