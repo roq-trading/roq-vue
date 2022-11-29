@@ -186,7 +186,7 @@ export default {
   },
   methods: {
     fetch_orders() {
-      const path = `/api/orders?${this.user}&recursive=true`;
+      const path = `/api/orders?user=${this.user}&recursive=true`;
       const url = create_url(path, this.gateway);
       axios
         .get(url)
