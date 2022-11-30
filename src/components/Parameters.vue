@@ -32,6 +32,7 @@ export default {
       defaultColDef: {
         flex: 1,
         resizable: true,
+        editable: true,
       },
     };
   },
@@ -62,6 +63,14 @@ export default {
       });
       params.columnApi.autoSizeColumns(columns);
     },
+    cell_value_changed(params) {
+      console.log(params);
+      console.log("row index", params.rowIndex);
+      console.log("row data", params.data);
+      console.log("col field", params.colDef.field);
+      console.log("new value", params.newValue);
+      console.log("old value", params.oldValue);
+    },
   },
   watch: {
     user() {
@@ -85,7 +94,8 @@ export default {
           :columnDefs="columnDefs"
           :defaultColDef="defaultColDef"
           :rowData="parameters"
-          @ModelUpdated="on_model_updated"
+          @modelUpdated="on_model_updated"
+          @cellValueChanged="cell_value_changed"
         >
         </ag-grid-vue>
       </div>

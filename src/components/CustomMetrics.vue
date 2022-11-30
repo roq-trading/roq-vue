@@ -109,7 +109,7 @@ export default {
           :columnDefs="columnDefs"
           :defaultColDef="defaultColDef"
           :rowData="custom_metrics"
-          @ModelUpdated="on_model_updated"
+          @modelUpdated="on_model_updated"
         >
         </ag-grid-vue>
       </div>

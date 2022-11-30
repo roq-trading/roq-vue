@@ -125,9 +125,9 @@ export default {
         :rowData="orders"
         :enableCellChangeFlash="true"
         rowSelection="single"
-        @GridReady="on_grid_ready"
-        @SelectionChanged="on_selection_changed"
-        @ModelUpdated="on_model_updated"
+        @gridReady="on_grid_ready"
+        @selectionChanged="on_selection_changed"
+        @modelUpdated="on_model_updated"
       >
       </ag-grid-vue>
     </div>

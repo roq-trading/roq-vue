@@ -104,7 +104,7 @@ export default {
         :columnDefs="columnDefs"
         :defaultColDef="defaultColDef"
         :rowData="trades"
-        @ModelUpdated="on_model_updated"
+        @modelUpdated="on_model_updated"
       >
       </ag-grid-vue>
     </div>
