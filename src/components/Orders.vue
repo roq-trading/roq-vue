@@ -67,6 +67,7 @@ export default {
         (item) => ({
           headerName: item.name,
           field: item.name,
+          headerTooltip: item.name,
           valueFormatter: (node) => item.formatter(node.value),
         })
       ),
