@@ -3,10 +3,8 @@ import axios from "axios";
 import { AgGridVue } from "ag-grid-vue3";
 import {
   create_url,
-  format_datetime,
-  format_integer,
-  format_number,
-  format_string,
+  get_order_headers,
+  get_ag_grid_column_defs,
 } from "@/components/Utils";
 import _ from "lodash";
 defineProps({
@@ -32,56 +30,24 @@ export default {
   },
   data() {
     return {
+      // data
       orders: null,
-      headers: _.map(
-        [
-          { name: "account", formatter: format_string },
-          { name: "order_id", formatter: format_integer },
-          { name: "exchange", formatter: format_string },
-          { name: "symbol", formatter: format_string },
-          { name: "side", formatter: format_string },
-          { name: "position_effect", formatter: format_string },
-          { name: "order_type", formatter: format_string },
-          { name: "time_in_force", formatter: format_string },
-          { name: "execution_instructions", formatter: format_string },
-          { name: "order_template", formatter: format_string },
-          { name: "create_time_utc", formatter: format_datetime },
-          { name: "update_time_utc", formatter: format_datetime },
-          { name: "external_account", formatter: format_string },
-          { name: "external_order_id", formatter: format_string },
-          { name: "status", formatter: format_string },
-          { name: "quantity", formatter: format_number },
-          { name: "price", formatter: format_number },
-          { name: "stop_price", formatter: format_number },
-          { name: "remaining_quantity", formatter: format_number },
-          { name: "traded_quantity", formatter: format_number },
-          { name: "average_traded_price", formatter: format_number },
-          { name: "last_traded_quantity", formatter: format_number },
-          { name: "last_traded_price", formatter: format_number },
-          { name: "last_liquidity", formatter: format_string },
-          { name: "routing_id", formatter: format_string },
-          { name: "max_request_version", formatter: format_integer },
-          { name: "max_response_version", formatter: format_integer },
-          { name: "max_accepted_version", formatter: format_integer },
-        ],
-        (item) => ({
-          headerName: item.name,
-          field: item.name,
-          headerTooltip: item.name,
-          valueFormatter: (node) => item.formatter(node.value),
-        })
-      ),
-      default_headers: {
+      // config
+      active: true,
+      reduced: true,
+      // ag-grid
+      columnDefs: get_ag_grid_column_defs(get_order_headers(true)),
+      defaultColDef: {
         flex: 1,
         resizable: true,
-        floatingFilter: false,
-        filter: "agTextColumnFilter",
       },
+      api: null,
     };
   },
   methods: {
+    // data
     fetch_orders() {
-      const path = `/api/orders?user=${this.user}&recursive=true`;
+      const path = `/api/orders?user=${this.user}&recursive=true&active=${this.active}`;
       const url = create_url(path, this.gateway);
       axios
         .get(url)
@@ -97,13 +63,31 @@ export default {
           }
         });
     },
-    toggle_filter() {},
-    auto_resize(params) {
+    // config
+    toggle_active() {
+      this.active = !this.active;
+    },
+    toggle_reduced() {
+      this.reduced = !this.reduced;
+      this.columnDefs = get_ag_grid_column_defs(
+        get_order_headers(this.reduced)
+      );
+    },
+    // ag-grid
+    on_grid_ready(params) {
+      this.api = params.api;
+    },
+    on_selection_changed() {
+      console.log("TODO modal");
+      const rows = this.api.getSelectedRows();
+      if (_.size(rows) > 0) console.log(rows[0]);
+    },
+    on_model_updated(params) {
       var columns = [];
       params.columnApi.getColumns().forEach(function (column) {
         columns.push(column.colId);
       });
-      params.columnApi.autoSizeColumns(columns, true);
+      params.columnApi.autoSizeColumns(columns, !this.reduced);
     },
   },
   watch: {
@@ -111,6 +95,9 @@ export default {
       this.fetch_orders();
     },
     timer() {
+      this.fetch_orders();
+    },
+    active() {
       this.fetch_orders();
     },
   },
@@ -124,20 +111,23 @@ export default {
   <div class="container">
     <h3>Orders</h3>
     <div v-if="orders">
-      <input
-        type="checkbox"
-        id="filter"
-        value="false"
-        v-model="toggle_filter"
-      />
-      <label for="filter">Filter?</label>
+      <button @click="toggle_active">
+        {{ active ? "Active Orders" : "All Orders" }}
+      </button>
+      <button @click="toggle_reduced">
+        {{ reduced ? "Reduced View" : "Full View" }}
+      </button>
       <ag-grid-vue
         style="width: 100%; height: 200px"
         class="ag-theme-alpine-dark"
-        :columnDefs="headers"
-        :defaultColDef="default_headers"
+        :columnDefs="columnDefs"
+        :defaultColDef="defaultColDef"
         :rowData="orders"
-        @ModelUpdated="auto_resize"
+        :enableCellChangeFlash="true"
+        rowSelection="single"
+        @GridReady="on_grid_ready"
+        @SelectionChanged="on_selection_changed"
+        @ModelUpdated="on_model_updated"
       >
       </ag-grid-vue>
     </div>
