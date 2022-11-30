@@ -1,7 +1,11 @@
 <script setup>
 import axios from "axios";
 import { AgGridVue } from "ag-grid-vue3";
-import { create_url } from "@/components/Utils";
+import {
+  create_url,
+  parameter_headers,
+  get_ag_grid_column_defs,
+} from "@/components/Utils";
 defineProps({
   gateway: {
     type: String,
@@ -21,31 +25,18 @@ export default {
   },
   data() {
     return {
+      // data
       parameters: null,
-      headers: [
-        { headerName: "label", field: "label", filter: "agTextColumnFilter" },
-        {
-          headerName: "account",
-          field: "account",
-          filter: "agTextColumnFilter",
-        },
-        {
-          headerName: "exchange",
-          field: "exchange",
-          filter: "agTextColumnFilter",
-        },
-        { headerName: "symbol", field: "symbol", filter: "agTextColumnFilter" },
-        { headerName: "value", field: "value", filter: false },
-      ],
-      default_headers: {
+      // ag-grid
+      columnDefs: get_ag_grid_column_defs(parameter_headers),
+      defaultColDef: {
         flex: 1,
-        minWidth: 200,
         resizable: true,
-        floatingFilter: true,
       },
     };
   },
   methods: {
+    // data
     fetch_parameters() {
       const path = `/api/parameters?user=${this.user}&recursive=true`;
       const url = create_url(path, this.gateway);
@@ -63,7 +54,14 @@ export default {
           }
         });
     },
-    toggle_filter() {},
+    // ag-grid
+    on_model_updated(params) {
+      var columns = [];
+      params.columnApi.getColumns().forEach(function (column) {
+        columns.push(column.colId);
+      });
+      params.columnApi.autoSizeColumns(columns);
+    },
   },
   watch: {
     user() {
@@ -80,20 +78,14 @@ export default {
   <div class="container">
     <h3>Parameters</h3>
     <div v-if="parameters">
-      <input
-        type="checkbox"
-        id="filter"
-        value="false"
-        v-model="toggle_filter"
-      />
-      <label for="filter">Filter?</label>
       <div class="grid">
         <ag-grid-vue
           style="width: 100%; height: 200px"
           class="ag-theme-alpine-dark"
-          :columnDefs="headers"
-          :defaultColDef="default_headers"
+          :columnDefs="columnDefs"
+          :defaultColDef="defaultColDef"
           :rowData="parameters"
+          @ModelUpdated="on_model_updated"
         >
         </ag-grid-vue>
       </div>

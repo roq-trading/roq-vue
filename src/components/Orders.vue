@@ -3,7 +3,7 @@ import axios from "axios";
 import { AgGridVue } from "ag-grid-vue3";
 import {
   create_url,
-  get_order_headers,
+  get_orders_headers,
   get_ag_grid_column_defs,
 } from "@/components/Utils";
 import _ from "lodash";
@@ -31,12 +31,12 @@ export default {
   data() {
     return {
       // data
-      orders: null,
+      orders: [],
       // config
-      active: true,
       reduced: true,
+      active: true,
       // ag-grid
-      columnDefs: get_ag_grid_column_defs(get_order_headers(true)),
+      columnDefs: get_ag_grid_column_defs(get_orders_headers(true)),
       defaultColDef: {
         flex: 1,
         resizable: true,
@@ -54,7 +54,7 @@ export default {
         .then((response) => (this.orders = response.data))
         .catch((error) => {
           if (error.response) {
-            if (error.response.status == 404) this.orders = null;
+            if (error.response.status == 404) this.orders = [];
             else console.log(error.response);
           } else if (error.request) {
             console.log(error.request);
@@ -64,14 +64,14 @@ export default {
         });
     },
     // config
-    toggle_active() {
-      this.active = !this.active;
-    },
     toggle_reduced() {
       this.reduced = !this.reduced;
       this.columnDefs = get_ag_grid_column_defs(
-        get_order_headers(this.reduced)
+        get_orders_headers(this.reduced)
       );
+    },
+    toggle_active() {
+      this.active = !this.active;
     },
     // ag-grid
     on_grid_ready(params) {
@@ -111,11 +111,11 @@ export default {
   <div class="container">
     <h3>Orders</h3>
     <div v-if="orders">
-      <button @click="toggle_active">
-        {{ active ? "Active Orders" : "All Orders" }}
-      </button>
       <button @click="toggle_reduced">
         {{ reduced ? "Reduced View" : "Full View" }}
+      </button>
+      <button @click="toggle_active">
+        {{ active ? "Active Orders" : "All Orders" }}
       </button>
       <ag-grid-vue
         style="width: 100%; height: 200px"

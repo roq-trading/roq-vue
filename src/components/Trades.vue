@@ -3,10 +3,8 @@ import axios from "axios";
 import { AgGridVue } from "ag-grid-vue3";
 import {
   create_url,
-  format_datetime,
-  format_integer,
-  format_number,
-  format_string,
+  get_trades_headers,
+  get_ag_grid_column_defs,
 } from "@/components/Utils";
 import _ from "lodash";
 defineProps({
@@ -32,41 +30,20 @@ export default {
   },
   data() {
     return {
-      trades: null,
-      headers: _.map(
-        [
-          { name: "account", formatter: format_string },
-          { name: "order_id", formatter: format_integer },
-          { name: "exchange", formatter: format_string },
-          { name: "symbol", formatter: format_string },
-          { name: "side", formatter: format_string },
-          { name: "position_effect", formatter: format_string },
-          { name: "create_time_utc", formatter: format_datetime },
-          { name: "update_time_utc", formatter: format_datetime },
-          { name: "external_account", formatter: format_string },
-          { name: "external_order_id", formatter: format_string },
-          { name: "external_trade_id", formatter: format_string },
-          { name: "quantity", formatter: format_number },
-          { name: "price", formatter: format_number },
-          { name: "liquidity", formatter: format_string },
-          { name: "routing_id", formatter: format_string },
-        ],
-        (item) => ({
-          headerName: item.name,
-          field: item.name,
-          headerTooltip: item.name,
-          valueFormatter: (node) => item.formatter(node.value),
-        })
-      ),
-      default_headers: {
+      // data
+      trades: [],
+      // config
+      reduced: true,
+      // ag-grid
+      columnDefs: get_ag_grid_column_defs(get_trades_headers(true)),
+      defaultColDef: {
         flex: 1,
         resizable: true,
-        floatingFilter: false,
-        filter: "agTextColumnFilter",
       },
     };
   },
   methods: {
+    // data
     fetch_trades() {
       const path = `/api/trades?user=${this.user}&recursive=true`;
       const url = create_url(path, this.gateway);
@@ -84,13 +61,20 @@ export default {
           }
         });
     },
-    toggle_filter() {},
-    auto_resize(params) {
+    // config
+    toggle_reduced() {
+      this.reduced = !this.reduced;
+      this.columnDefs = get_ag_grid_column_defs(
+        get_trades_headers(this.reduced)
+      );
+    },
+    // ag-grid
+    on_model_updated(params) {
       var columns = [];
       params.columnApi.getColumns().forEach(function (column) {
         columns.push(column.colId);
       });
-      params.columnApi.autoSizeColumns(columns, true);
+      params.columnApi.autoSizeColumns(columns, !this.reduced);
     },
   },
   watch: {
@@ -111,20 +95,16 @@ export default {
   <div class="container">
     <h3>Trades</h3>
     <div v-if="trades">
-      <input
-        type="checkbox"
-        id="filter"
-        value="false"
-        v-model="toggle_filter"
-      />
-      <label for="filter">Filter?</label>
+      <button @click="toggle_reduced">
+        {{ reduced ? "Reduced View" : "Full View" }}
+      </button>
       <ag-grid-vue
         style="width: 100%; height: 200px"
         class="ag-theme-alpine-dark"
-        :columnDefs="headers"
-        :defaultColDef="default_headers"
+        :columnDefs="columnDefs"
+        :defaultColDef="defaultColDef"
         :rowData="trades"
-        @ModelUpdated="auto_resize"
+        @ModelUpdated="on_model_updated"
       >
       </ag-grid-vue>
     </div>

@@ -51,7 +51,30 @@ export function create_url(path, gateway) {
   return `${prefix}/${gateway}${path}`;
 }
 
-export const order_headers = [
+// parameter
+
+export const parameter_headers = [
+  { name: "label", always: true, formatter: format_string },
+  { name: "account", always: true, formatter: format_string },
+  { name: "exchange", always: true, formatter: format_string },
+  { name: "symbol", always: true, formatter: format_string },
+  { name: "value", always: true, formatter: format_string },
+];
+
+// custom metrics
+
+export const custom_metrics_headers = [
+  { name: "label", always: true, formatter: format_string },
+  { name: "account", always: true, formatter: format_string },
+  { name: "exchange", always: true, formatter: format_string },
+  { name: "symbol", always: true, formatter: format_string },
+  { name: "key", always: true, formatter: format_string },
+  { name: "value", always: true, formatter: format_number },
+];
+
+// order
+
+export const orders_headers = [
   { name: "account", always: true, formatter: format_string },
   { name: "order_id", always: true, formatter: format_integer },
   { name: "exchange", always: true, formatter: format_string },
@@ -94,10 +117,10 @@ export const order_headers = [
   },
 ];
 
-export function get_order_headers(reduced) {
+export function get_orders_headers(reduced) {
   if (reduced) {
     return _.reduce(
-      order_headers,
+      orders_headers,
       (result, item) => {
         if (item.always) result.push(item);
         return result;
@@ -105,9 +128,46 @@ export function get_order_headers(reduced) {
       []
     );
   } else {
-    return order_headers;
+    return orders_headers;
   }
 }
+
+// trades
+
+export const trades_headers = [
+  { name: "account", always: true, formatter: format_string },
+  { name: "order_id", always: true, formatter: format_integer },
+  { name: "exchange", always: true, formatter: format_string },
+  { name: "symbol", always: true, formatter: format_string },
+  { name: "side", always: true, formatter: format_string },
+  { name: "position_effect", always: false, formatter: format_string },
+  { name: "create_time_utc", always: false, formatter: format_datetime },
+  { name: "update_time_utc", always: false, formatter: format_datetime },
+  { name: "external_account", always: false, formatter: format_string },
+  { name: "external_order_id", always: false, formatter: format_string },
+  { name: "external_trade_id", always: false, formatter: format_string },
+  { name: "quantity", always: true, formatter: format_number },
+  { name: "price", always: true, formatter: format_number },
+  { name: "liquidity", always: true, formatter: format_string },
+  { name: "routing_id", always: false, formatter: format_string },
+];
+
+export function get_trades_headers(reduced) {
+  if (reduced) {
+    return _.reduce(
+      trades_headers,
+      (result, item) => {
+        if (item.always) result.push(item);
+        return result;
+      },
+      []
+    );
+  } else {
+    return trades_headers;
+  }
+}
+
+// ag-grid
 
 export function get_ag_grid_column_defs(headers) {
   return _.map(headers, (item) => ({
