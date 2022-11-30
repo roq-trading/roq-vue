@@ -1,9 +1,14 @@
 <script setup>
 import axios from "axios";
-import "ag-grid-community/styles//ag-grid.css";
-import "ag-grid-community/styles//ag-theme-alpine.css";
 import { AgGridVue } from "ag-grid-vue3";
-import { create_url } from "@/components/Utils";
+import {
+  create_url,
+  format_datetime,
+  format_integer,
+  format_number,
+  format_string,
+} from "@/components/Utils";
+import _ from "lodash";
 defineProps({
   gateway: {
     type: String,
@@ -27,160 +32,49 @@ export default {
   },
   data() {
     return {
-      //orders: null,
-      orders: [
-        {
-          account: "A1",
-          order_id: 1234,
-          exchange: "deribit",
-          symbol: "BTC-PERPETUAL",
-          side: "BUY",
-          position_effect: "",
-          order_type: "LIMIT",
-          time_in_force: "GTC",
-          execution_instructions: "",
-          order_template: "",
-          create_time_utc: "",
-          update_time_utc: "",
-          external_account: "",
-          external_order_id: "abc12345",
-          status: "WORKING",
-          quantity: 1,
-          price: 15954.1,
-          stop_price: null,
-          remaining_quantity: 1,
-          traded_quantity: 0,
-          average_traded_price: null,
-          last_traded_quantity: null,
-          last_traded_price: null,
-          last_liquidity: null,
-          routing_id: "",
-          max_request_version: 1,
-          max_response_version: 1,
-          max_accepted_version: 1,
-        },
-      ],
-      headers: [
-        {
-          headerName: "account",
-          field: "account",
-        },
-        {
-          headerName: "order_id",
-          field: "order_id",
-        },
-        {
-          headerName: "exchange",
-          field: "exchange",
-        },
-        {
-          headerName: "symbol",
-          field: "symbol",
-        },
-        {
-          headerName: "side",
-          field: "side",
-        },
-        {
-          headerName: "position_effect",
-          field: "position_effect",
-        },
-        {
-          headerName: "order_type",
-          field: "order_type",
-        },
-        {
-          headerName: "time_in_force",
-          field: "time_in_force",
-        },
-        {
-          headerName: "execution_instructions",
-          field: "execution_instructions",
-        },
-        {
-          headerName: "order_template",
-          field: "order_template",
-        },
-        {
-          headerName: "create_time_utc",
-          field: "create_time_utc",
-        },
-        {
-          headerName: "update_time_utc",
-          field: "update_time_utc",
-        },
-        {
-          headerName: "external_account",
-          field: "external_account",
-        },
-        {
-          headerName: "external_order_id",
-          field: "external_order_id",
-        },
-        {
-          headerName: "status",
-          field: "status",
-        },
-        {
-          headerName: "quantity",
-          field: "quantity",
-        },
-        {
-          headerName: "price",
-          field: "price",
-        },
-        {
-          headerName: "stop_price",
-          field: "stop_price",
-        },
-        {
-          headerName: "remaining_quantity",
-          field: "remaining_quantity",
-        },
-        {
-          headerName: "traded_quantity",
-          field: "traded_quantity",
-        },
-        {
-          headerName: "average_traded_price",
-          field: "average_traded_price",
-        },
-        {
-          headerName: "last_traded_quantity",
-          field: "last_traded_quantity",
-        },
-        {
-          headerName: "last_traded_price",
-          field: "last_traded_price",
-        },
-        {
-          headerName: "last_liquidity",
-          field: "last_liquidity",
-        },
-        {
-          headerName: "routing_id",
-          field: "routing_id",
-        },
-        {
-          headerName: "max_request_version",
-          field: "max_request_version",
-        },
-        {
-          headerName: "max_response_version",
-          field: "max_response_version",
-        },
-        {
-          headerName: "max_accepted_version",
-          field: "max_accepted_version",
-        },
-      ],
+      orders: null,
+      headers: _.map(
+        [
+          { name: "account", formatter: format_string },
+          { name: "order_id", formatter: format_integer },
+          { name: "exchange", formatter: format_string },
+          { name: "symbol", formatter: format_string },
+          { name: "side", formatter: format_string },
+          { name: "position_effect", formatter: format_string },
+          { name: "order_type", formatter: format_string },
+          { name: "time_in_force", formatter: format_string },
+          { name: "execution_instructions", formatter: format_string },
+          { name: "order_template", formatter: format_string },
+          { name: "create_time_utc", formatter: format_datetime },
+          { name: "update_time_utc", formatter: format_datetime },
+          { name: "external_account", formatter: format_string },
+          { name: "external_order_id", formatter: format_string },
+          { name: "status", formatter: format_string },
+          { name: "quantity", formatter: format_number },
+          { name: "price", formatter: format_number },
+          { name: "stop_price", formatter: format_number },
+          { name: "remaining_quantity", formatter: format_number },
+          { name: "traded_quantity", formatter: format_number },
+          { name: "average_traded_price", formatter: format_number },
+          { name: "last_traded_quantity", formatter: format_number },
+          { name: "last_traded_price", formatter: format_number },
+          { name: "last_liquidity", formatter: format_string },
+          { name: "routing_id", formatter: format_string },
+          { name: "max_request_version", formatter: format_integer },
+          { name: "max_response_version", formatter: format_integer },
+          { name: "max_accepted_version", formatter: format_integer },
+        ],
+        (item) => ({
+          headerName: item.name,
+          field: item.name,
+          valueFormatter: (node) => item.formatter(node.value),
+        })
+      ),
       default_headers: {
         flex: 1,
-        minWidth: 150,
         resizable: true,
         floatingFilter: false,
         filter: "agTextColumnFilter",
-        autoSizeColumn: true,
       },
     };
   },
@@ -203,6 +97,13 @@ export default {
         });
     },
     toggle_filter() {},
+    auto_resize(params) {
+      var columns = [];
+      params.columnApi.getColumns().forEach(function (column) {
+        columns.push(column.colId);
+      });
+      params.columnApi.autoSizeColumns(columns, true);
+    },
   },
   watch: {
     user() {
@@ -235,6 +136,7 @@ export default {
         :columnDefs="headers"
         :defaultColDef="default_headers"
         :rowData="orders"
+        @ModelUpdated="auto_resize"
       >
       </ag-grid-vue>
     </div>

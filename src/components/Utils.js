@@ -1,16 +1,31 @@
 import dayjs from "dayjs";
 import _ from "lodash";
 
-function format_date(value) {
+export function format_date(value) {
   if (_.isNil(value)) return;
   const date = dayjs(value);
   return date.format("YYYY-MM-DD");
 }
 
-function format_datetime(value) {
+export function format_datetime(value) {
   if (_.isNil(value)) return;
   const date = typeof value === "string" ? dayjs(value) : dayjs.unix(value);
   return date.format("YYYY-MM-DD hh:mm:ss");
+}
+
+export function format_integer(value) {
+  if (_.isNil(value)) return;
+  return `${value}`; // TODO thousand separator
+}
+
+export function format_number(value) {
+  if (_.isNil(value)) return;
+  return `${value}`; // TODO thousand separator
+}
+
+export function format_string(value) {
+  if (_.isNil(value)) return;
+  return value;
 }
 
 export function format_helper(key, value) {

@@ -1,7 +1,5 @@
 <script setup>
 import axios from "axios";
-import "ag-grid-community/styles//ag-grid.css";
-import "ag-grid-community/styles//ag-theme-alpine.css";
 import { AgGridVue } from "ag-grid-vue3";
 import { create_url } from "@/components/Utils";
 defineProps({

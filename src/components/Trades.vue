@@ -1,9 +1,14 @@
 <script setup>
 import axios from "axios";
-import "ag-grid-community/styles//ag-grid.css";
-import "ag-grid-community/styles//ag-theme-alpine.css";
 import { AgGridVue } from "ag-grid-vue3";
-import { create_url } from "@/components/Utils";
+import {
+  create_url,
+  format_datetime,
+  format_integer,
+  format_number,
+  format_string,
+} from "@/components/Utils";
+import _ from "lodash";
 defineProps({
   gateway: {
     type: String,
@@ -27,96 +32,36 @@ export default {
   },
   data() {
     return {
-      // trades: null,
-      trades: [
-        {
-          account: "A1",
-          order_id: 1234,
-          exchange: "deribit",
-          symbol: "BTC-PERPETUAL",
-          side: "BUY",
-          position_effect: "",
-          create_time_utc: "",
-          update_time_utc: "",
-          external_account: "",
-          external_order_id: "abc12345",
-          external_trade_id: "def67890",
-          quantity: 1,
-          price: 15954.1,
-          last_liquidity: "MAKER",
-          routing_id: "",
-        },
-      ],
-      headers: [
-        {
-          headerName: "account",
-          field: "account",
-        },
-        {
-          headerName: "order_id",
-          field: "order_id",
-        },
-        {
-          headerName: "exchange",
-          field: "exchange",
-        },
-        {
-          headerName: "symbol",
-          field: "symbol",
-        },
-        {
-          headerName: "side",
-          field: "side",
-        },
-        {
-          headerName: "position_effect",
-          field: "position_effect",
-        },
-        {
-          headerName: "create_time_utc",
-          field: "create_time_utc",
-        },
-        {
-          headerName: "update_time_utc",
-          field: "update_time_utc",
-        },
-        {
-          headerName: "external_account",
-          field: "external_account",
-        },
-        {
-          headerName: "external_order_id",
-          field: "external_order_id",
-        },
-        // TODO fills? group?
-        {
-          headerName: "external_trade_id",
-          field: "external_trade_id",
-        },
-        {
-          headerName: "quantity",
-          field: "quantity",
-        },
-        {
-          headerName: "price",
-          field: "price",
-        },
-        {
-          headerName: "liquidity",
-          field: "liquidity",
-        },
-        {
-          headerName: "routing_id",
-          field: "routing_id",
-        },
-      ],
+      trades: null,
+      headers: _.map(
+        [
+          { name: "account", formatter: format_string },
+          { name: "order_id", formatter: format_integer },
+          { name: "exchange", formatter: format_string },
+          { name: "symbol", formatter: format_string },
+          { name: "side", formatter: format_string },
+          { name: "position_effect", formatter: format_string },
+          { name: "create_time_utc", formatter: format_datetime },
+          { name: "update_time_utc", formatter: format_datetime },
+          { name: "external_account", formatter: format_string },
+          { name: "external_order_id", formatter: format_string },
+          { name: "external_trade_id", formatter: format_string },
+          { name: "quantity", formatter: format_number },
+          { name: "price", formatter: format_number },
+          { name: "liquidity", formatter: format_string },
+          { name: "routing_id", formatter: format_string },
+        ],
+        (item) => ({
+          headerName: item.name,
+          field: item.name,
+          valueFormatter: (node) => item.formatter(node.value),
+        })
+      ),
       default_headers: {
         flex: 1,
-        minWidth: 150,
         resizable: true,
         floatingFilter: false,
         filter: "agTextColumnFilter",
-        autoSizeColumn: true,
       },
     };
   },
@@ -139,6 +84,13 @@ export default {
         });
     },
     toggle_filter() {},
+    auto_resize(params) {
+      var columns = [];
+      params.columnApi.getColumns().forEach(function (column) {
+        columns.push(column.colId);
+      });
+      params.columnApi.autoSizeColumns(columns, true);
+    },
   },
   watch: {
     user() {
@@ -171,6 +123,7 @@ export default {
         :columnDefs="headers"
         :defaultColDef="default_headers"
         :rowData="trades"
+        @ModelUpdated="auto_resize"
       >
       </ag-grid-vue>
     </div>
