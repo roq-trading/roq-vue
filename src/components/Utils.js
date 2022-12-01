@@ -51,9 +51,15 @@ export function create_url(path, gateway) {
   return `${prefix}/${gateway}${path}`;
 }
 
-// parameter
+// parameters
 
-export const parameter_headers = [
+export const parameters_headers = [
+  {
+    name: "delete?",
+    always: true,
+    formatter: format_string,
+    checkbox: true,
+  },
   { name: "label", always: true, formatter: format_string },
   { name: "account", always: true, formatter: format_string },
   { name: "exchange", always: true, formatter: format_string },
@@ -170,10 +176,21 @@ export function get_trades_headers(reduced) {
 // ag-grid
 
 export function get_ag_grid_column_defs(headers) {
-  return _.map(headers, (item) => ({
-    headerName: item.name,
-    field: item.name,
-    headerTooltip: item.name,
-    valueFormatter: (node) => item.formatter(node.value),
-  }));
+  return _.reduce(
+    headers,
+    (result, item) => {
+      const has_checkbox = typeof item.checkbox !== "undefined";
+      result.push({
+        headerName: item.name,
+        field: item.name,
+        headerTooltip: item.name,
+        valueFormatter: (node) => item.formatter(node.value),
+        headerCheckboxSelection: has_checkbox,
+        checkboxSelection: has_checkbox,
+        showDisabledCheckboxes: has_checkbox,
+      });
+      return result;
+    },
+    []
+  );
 }

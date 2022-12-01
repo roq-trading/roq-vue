@@ -124,7 +124,7 @@ export default {
         :defaultColDef="defaultColDef"
         :rowData="orders"
         :enableCellChangeFlash="true"
-        rowSelection="single"
+        :rowSelection="single"
         @gridReady="on_grid_ready"
         @selectionChanged="on_selection_changed"
         @modelUpdated="on_model_updated"

@@ -3,7 +3,7 @@ import axios from "axios";
 import { AgGridVue } from "ag-grid-vue3";
 import {
   create_url,
-  parameter_headers,
+  parameters_headers,
   get_ag_grid_column_defs,
 } from "@/components/Utils";
 defineProps({
@@ -28,7 +28,7 @@ export default {
       // data
       parameters: null,
       // ag-grid
-      columnDefs: get_ag_grid_column_defs(parameter_headers),
+      columnDefs: get_ag_grid_column_defs(parameters_headers),
       defaultColDef: {
         flex: 1,
         resizable: true,
@@ -71,6 +71,9 @@ export default {
       console.log("new value", params.newValue);
       console.log("old value", params.oldValue);
     },
+    is_row_selectable(params) {
+      return !!params.data;
+    },
   },
   watch: {
     user() {
@@ -94,6 +97,8 @@ export default {
           :columnDefs="columnDefs"
           :defaultColDef="defaultColDef"
           :rowData="parameters"
+          :suppressRowClickSelection="true"
+          :isRowSelectable="is_row_selectable"
           @modelUpdated="on_model_updated"
           @cellValueChanged="cell_value_changed"
         >
