@@ -1,73 +1,94 @@
 <script setup>
-import axios from "axios";
-import Gateways from "@/components/Gateways.vue";
-import { create_url } from "@/components/Utils";
+import { ref } from 'vue';
+import Services from "@/components/Services.vue";
+import socket from "@/socket.js"
 </script>
 
 <script>
 export default {
   data() {
     return {
-      gateways: null,
-      gateways_2: [
-        "binance",
-        "binance-futures",
-        "bitfinex",
-        "bitmex",
-        "bitstamp",
-        "bybit",
-        "bybit-futures",
-        "coinbase-pro",
-        "deribit",
-        "gate",
-        "gate-futures",
-        "hitbtc",
-        "huobi",
-        "huobi-futures",
-        "kraken",
-        "kraken-futures",
-        "kucoin",
-        "kucoin-futures",
-        "okx",
-      ],
+      shared: {
+        socket: socket,
+	      services: null,
+        request: false,
+      },
     };
   },
   methods: {
-    fetch_config() {
-      // note!
-      // multiple gateways can be supported when a configuration is provided
-      // this will then change the request paths for api calls
-      const path = "/config.json";
-      const url = create_url(path);
-      axios
-        .get(url)
-        .then((response) => (this.gateways = response.data))
-        .catch((error) => {
-          if (error.response) {
-            if (error.response.status == 404) {
-            } else console.log(error.response);
-          } else if (error.request) {
-            console.log(error.request);
-          } else {
-            console.log("Error:", error.message);
-          }
-        });
+	  bind_socket() {
+      socket.onopen = this.on_open;
+      socket.onclose = this.on_close;
+      socket.onmessage = this.on_message;
     },
+    on_open(event) {
+      console.log('open');
+      this.shared.request = false;  // XXX
+      var request = [
+        'systemd',
+        'subscribe',
+      ];
+      var message = JSON.stringify(request);
+      console.log(message);
+      event.target.send(message);
+    },
+    on_close(event) {
+      console.log('close');
+      this.shared.request = true;  // XXX
+      // XXX FIXME auto-reconnect
+    },
+    on_message(event) {
+      console.log(event.data);
+		  var message = JSON.parse(event.data);
+		  console.log(message);
+      var method = message[1];
+      if (method == 'subscribe') {
+        console.log('subscribe: ', message[2]);
+      } else if (method == 'unsubscribe') {
+        console.log('unsubscribe: ', message[2]);
+      } else if (method == 'snapshot') {
+        console.log('snapshot: ', message[2]);
+        this.shared.services = message[2];
+      } else if (method == 'update') {
+        console.log('update: ', message[2]);
+        // XXX FIXME doesn't work -- use transactions on the grid instead
+        var name = message[2].name;
+        for (var i = 0; i < this.shared.services.length; i++) {
+          if (this.shared.services[i].name == name) {
+            this.shared.services[i] = message[2];
+            return;
+          }
+        }
+      } else if (method == 'control') {
+        console.log('control: ', message[2]);
+        this.shared.request = false;
+      }
+	  },
   },
-  mounted: function () {
-    this.fetch_config();
+  mounted() {
+    this.bind_socket();
+  },
+  unmouned() {
+    console.log('unmouned');
+    var request = [
+      'systemd',
+      'unsubscribe',
+    ];
+    var message = JSON.stringify(request);
+    console.log(message);
+    event.target.send(message);
   },
 };
 </script>
 
 <template>
   <div class="title">
-    <h2>Views</h2>
+    <h2>Services</h2>
     <hr />
   </div>
   <div class="container">
     <div class="view">
-      <Gateways :gateways="gateways" />
+      <Services :shared="shared" />
     </div>
     <div class="view"></div>
   </div>

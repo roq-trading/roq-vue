@@ -12,8 +12,10 @@
     "ag-grid-vue3": "^32.3.3",
     "axios": "^1.1.3",
     "dayjs": "^1.11.6",
+    "js-beautify": "^1.15.1",
     "lodash": "^4.17.21",
     "vue": "^3.2.41",
+    "vue-beautify": "^1.1.3",
     "vue-router": "^4.1.5"
   },
   "devDependencies": {
