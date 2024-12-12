@@ -8,13 +8,13 @@ Install dependencies
 npm i
 ```
 
-... should match what you define in `.env.development`
+Define the service-manager end-point in `.env.development`
 
 ```bash
-VITE_ROQ_URL=http://localhost:2345/roq
+VITE_ROQ_URL=ws://localhost:2345/roq
 ```
 
-Then compile this project and enable a local end-point
+Then compile this project and enable a local end-point for development
 
 ```bash
 npm run dev
