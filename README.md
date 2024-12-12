@@ -20,4 +20,5 @@ Then compile this project and enable a local end-point for development
 npm run dev
 ```
 
-![Home](/static/images/home.png)
+![Home1](/static/images/home_1.png)
+![Home2](/static/images/home_2.png)
