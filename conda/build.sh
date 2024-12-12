@@ -15,7 +15,7 @@ echo -e "\033[1;34m--- COPY ---\033[0m"
 
 find $SRC_DIR/dist -name "*"
 
-DATADIR="$PREFIX/share/roq/www"
+DATADIR="$PREFIX/share/roq-vue"
 
 mkdir -p $DATADIR
 cp -r $SRC_DIR/dist/* $DATADIR
