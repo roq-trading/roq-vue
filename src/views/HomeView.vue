@@ -1,6 +1,8 @@
 <script setup>
 import { ref } from 'vue';
-import Services from "@/components/Services.vue";
+import Systemd from "@/components/Systemd.vue";
+import Package from "@/components/Package.vue";
+import Host from "@/components/Host.vue";
 import socket from "@/socket.js"
 </script>
 
@@ -10,9 +12,10 @@ export default {
     return {
       shared: {
         socket: socket,
-	      services: null,
         request: false,
+	      services: null,
       },
+      view: 'systemd',
     };
   },
   methods: {
@@ -25,8 +28,8 @@ export default {
       console.log('open');
       this.shared.request = false;  // XXX
       var request = [
-        'systemd',
         'subscribe',
+        'services',
       ];
       var message = JSON.stringify(request);
       console.log(message);
@@ -41,7 +44,7 @@ export default {
       console.log(event.data);
 		  var message = JSON.parse(event.data);
 		  console.log(message);
-      var method = message[1];
+      var method = message[0];
       if (method == 'subscribe') {
         console.log('subscribe: ', message[2]);
       } else if (method == 'unsubscribe') {
@@ -71,8 +74,8 @@ export default {
   unmouned() {
     console.log('unmouned');
     var request = [
-      'systemd',
       'unsubscribe',
+      'services',
     ];
     var message = JSON.stringify(request);
     console.log(message);
@@ -88,7 +91,18 @@ export default {
   </div>
   <div class="container">
     <div class="view">
-      <Services :shared="shared" />
+      <button @click="view='systemd'">systemd</button>
+      <button @click="view='package'">package</button>
+      <button @click="view='host'">host</button>
+      <div v-if="view=='systemd'">
+        <Systemd :shared="shared" />
+      </div>
+      <div v-if="view=='package'">
+        <Package :shared="shared" />
+      </div>
+      <div v-if="view=='host'">
+        <Host :shared="shared" />
+      </div>
     </div>
     <div class="view"></div>
   </div>

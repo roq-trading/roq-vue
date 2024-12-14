@@ -42,8 +42,8 @@ export default {
   methods: {
     control(action, name) {
       var request = [
-        'systemd',
         'control',
+        'systemd',
         name,
         action.toLowerCase(),
       ];
@@ -71,7 +71,7 @@ export default {
 <template>
   <div class="container">
     <div v-if="shared.services">
-      <h3>systemd</h3>
+      <h3>Systemd</h3>
       <div class="grid">
         <ag-grid-vue
           style="width: 100%; height: 200px"
