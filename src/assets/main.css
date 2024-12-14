@@ -30,3 +30,10 @@ a:hover {
   margin: 0;
   font-weight: normal;
 }
+
+.good {
+  background: green;
+}
+.bad {
+  background: red;
+}

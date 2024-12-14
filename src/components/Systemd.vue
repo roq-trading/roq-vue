@@ -1,6 +1,7 @@
 <script setup>
 import { AgGridVue } from "ag-grid-vue3";
-import ControlService from "./ControlService.vue";
+import StartService from "./StartService.vue";
+import StopService from "./StopService.vue";
 import {
   format_datetime,
 } from "@/components/Utils";
@@ -21,19 +22,33 @@ export default {
   data() {
     return {
       columnDefs: [
+        { cellRenderer: StartService, cellRendererParams: { shared: this.shared, }, },
+        { cellRenderer: StopService, cellRendererParams: { shared: this.shared, }, },
         { headerName: 'name', field: 'name', },
         { headerName: 'description', field: 'systemd.description', },
-        { headerName: 'load_state', field: 'systemd.load_state', },
-        { headerName: 'unit_file_state', field: 'systemd.unit_file_state', },
-        { headerName: 'active_state', field: 'systemd.active_state', },
+        { headerName: 'active_state', field: 'systemd.active_state', cellClassRules: {
+          'good': params => params.value == 'active',
+          'bad': params => params.value != 'active',
+          },
+        },
         { headerName: 'active_enter_timestamp', field: 'systemd.active_enter_timestamp', valueFormatter: (node) => format_datetime(node.value), },
-        { cellRenderer: ControlService, cellRendererParams: { shared: this.shared, }, },
+        { headerName: 'load_state', field: 'systemd.load_state', cellClassRules: {
+          'good': params => params.value == 'loaded',
+          'bad': params => params.value != 'loaded',
+          },
+        },
+        { headerName: 'unit_file_state', field: 'systemd.unit_file_state', cellClassRules: {
+          'good': params => params.value == 'enabled',
+          'bad': params => params.value != 'enabled',
+          },
+        },
       ],
       defaultColDef: {
         flex: 1,
         resizable: true,
         editable: false,
       },
+      name: null,
       context: {
         control: this.control,
       },
@@ -63,6 +78,9 @@ export default {
         return {'background':'#7f0102'};
       if (params.data.systemd.active_state == 'active')
         return {'background':'#16304b'};
+    },
+    rowSelected(params) {
+      this.name = params.node.isSelected() ? params.data.name : null;
     },
   },
 };

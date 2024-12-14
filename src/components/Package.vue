@@ -21,9 +21,9 @@ export default {
     return {
       columnDefs: [
         { headerName: 'name', field: 'name', },
-        { field: 'session.package.name', },
-        { field: 'session.package.version', },
-        { field: 'session.package.build_number', },
+        { headerName: 'package', field: 'session.package.name', },
+        { headerName: 'version', field: 'session.package.version', },
+        { headerName: 'build_number', field: 'session.package.build_number', },
       ],
       defaultColDef: {
         flex: 1,

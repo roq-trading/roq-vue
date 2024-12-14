@@ -21,10 +21,10 @@ export default {
     return {
       columnDefs: [
         { headerName: 'name', field: 'name', },
-        { field: 'session.host.kernel.name', },
-        { field: 'session.host.kernel.release', },
-        { field: 'session.host.kernel.version', },
-        { field: 'session.host.network.hostname', },
+        { headerName: 'kernel', field: 'session.host.kernel.name', },
+        { headerName: 'release', field: 'session.host.kernel.release', },
+        { headerName: 'version', field: 'session.host.kernel.version', },
+        { headerName: 'hostname', field: 'session.host.network.hostname', },
       ],
       defaultColDef: {
         flex: 1,
