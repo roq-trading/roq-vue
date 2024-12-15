@@ -47,26 +47,23 @@ export default {
 		  const message = JSON.parse(event.data);
 		  console.log(message);
       const method = message[0];
-      if (method == 'subscribe') {
-        console.log('subscribe: ', message[3]);
-      } else if (method == 'unsubscribe') {
-        console.log('unsubscribe: ', message[3]);
+      if (method == 'ack') {
+        console.log('ack: ', message[2]);
+        if (message[1] == 'request')
+          this.shared.request = false;
       } else if (method == 'snapshot') {
-        console.log('snapshot: ', message[3]);
-        this.shared.services = message[3];
+        console.log('snapshot: ', message[2]);
+        this.shared.services = message[2];
       } else if (method == 'update') {
-        console.log('update: ', message[3]);
+        console.log('update: ', message[2]);
         // XXX FIXME doesn't work -- use transactions on the grid instead
-        const name = message[3].name;
+        const name = message[2].name;
         for (var i = 0; i < this.shared.services.length; i++) {
           if (this.shared.services[i].name == name) {
-            this.shared.services[i] = message[3];
+            this.shared.services[i] = message[2];
             return;
           }
         }
-      } else if (method == 'response') {
-        console.log('response: ', message[3]);
-        this.shared.request = false;
       }
 	  },
   },
