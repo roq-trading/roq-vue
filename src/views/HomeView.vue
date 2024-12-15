@@ -12,6 +12,7 @@ export default {
     return {
       shared: {
         socket: socket,
+        next_request_id: 0,
         request: false,
 	      services: null,
       },
@@ -27,7 +28,7 @@ export default {
     on_open(event) {
       console.log('open');
       this.shared.request = false;  // XXX
-      const opaque = 123;
+      const opaque = ++this.shared.next_request_id;
       const request = [
         'subscribe',
         'services',

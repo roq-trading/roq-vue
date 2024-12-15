@@ -54,7 +54,7 @@ export default {
   },
   methods: {
     request(name, action) {
-      const opaque = 123;
+      const opaque = ++this.shared.next_request_id;
       const request = [
         'request',
         'systemd',
