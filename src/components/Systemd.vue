@@ -27,19 +27,17 @@ export default {
         { headerName: 'name', field: 'name', },
         { headerName: 'description', field: 'systemd.description', },
         { headerName: 'active_state', field: 'systemd.active_state', cellClassRules: {
-          'good': params => params.value == 'active',
-          'bad': params => params.value != 'active',
+          'inactive': params => params.value == 'inactive',
+          'bad': params => params.value == 'failed',
           },
         },
         { headerName: 'active_enter_timestamp', field: 'systemd.active_enter_timestamp', valueFormatter: (node) => format_datetime(node.value), },
         { headerName: 'load_state', field: 'systemd.load_state', cellClassRules: {
-          'good': params => params.value == 'loaded',
-          'bad': params => params.value != 'loaded',
+          'bad': params => params.value == 'not-found',
           },
         },
         { headerName: 'unit_file_state', field: 'systemd.unit_file_state', cellClassRules: {
-          'good': params => params.value == 'enabled',
-          'bad': params => params.value != 'enabled',
+          'bad': params => params.value == 'disabled',
           },
         },
       ],
@@ -50,15 +48,17 @@ export default {
       },
       name: null,
       context: {
-        control: this.control,
+        request: this.request,
       },
     };
   },
   methods: {
-    control(action, name) {
-      var request = [
-        'control',
+    request(name, action) {
+      const opaque = 123;
+      const request = [
+        'request',
         'systemd',
+        opaque,
         name,
         action.toLowerCase(),
       ];

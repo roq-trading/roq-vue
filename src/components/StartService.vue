@@ -4,11 +4,11 @@
 <script>
 export default {
   methods: {
-    control(event) {
+    request(event) {
       // console.log(this.params);
-      var action = event.target.textContent;
-      var id = this.params.data.name;
-      this.params.context.control(action, id);
+      const name = this.params.data.name;
+      const action = event.target.textContent;
+      this.params.context.request(name, action);
     },
   },
 };
@@ -16,6 +16,6 @@ export default {
 
 <template>
   <div v-if="params.data.systemd.load_state == 'loaded'">
-    <button @click="control" :disabled="params.shared.request || params.data.systemd.active_state != 'inactive'">START</button>
+    <button @click="request" :disabled="params.shared.request || params.data.systemd.active_state != 'inactive'">START</button>
   </div>
 </template>

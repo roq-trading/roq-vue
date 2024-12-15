@@ -32,8 +32,11 @@ a:hover {
 }
 
 .good {
-  background: green;
+  color: #16304b;
 }
 .bad {
-  background: red;
+  color: #ff4500;
+}
+.inactive {
+  color: #99969f;
 }

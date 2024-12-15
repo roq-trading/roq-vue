@@ -27,11 +27,13 @@ export default {
     on_open(event) {
       console.log('open');
       this.shared.request = false;  // XXX
-      var request = [
+      const opaque = 123;
+      const request = [
         'subscribe',
         'services',
+        opaque,
       ];
-      var message = JSON.stringify(request);
+      const message = JSON.stringify(request);
       console.log(message);
       event.target.send(message);
     },
@@ -42,28 +44,28 @@ export default {
     },
     on_message(event) {
       console.log(event.data);
-		  var message = JSON.parse(event.data);
+		  const message = JSON.parse(event.data);
 		  console.log(message);
-      var method = message[0];
+      const method = message[0];
       if (method == 'subscribe') {
-        console.log('subscribe: ', message[2]);
+        console.log('subscribe: ', message[3]);
       } else if (method == 'unsubscribe') {
-        console.log('unsubscribe: ', message[2]);
+        console.log('unsubscribe: ', message[3]);
       } else if (method == 'snapshot') {
-        console.log('snapshot: ', message[2]);
-        this.shared.services = message[2];
+        console.log('snapshot: ', message[3]);
+        this.shared.services = message[3];
       } else if (method == 'update') {
-        console.log('update: ', message[2]);
+        console.log('update: ', message[3]);
         // XXX FIXME doesn't work -- use transactions on the grid instead
-        var name = message[2].name;
+        const name = message[3].name;
         for (var i = 0; i < this.shared.services.length; i++) {
           if (this.shared.services[i].name == name) {
-            this.shared.services[i] = message[2];
+            this.shared.services[i] = message[3];
             return;
           }
         }
-      } else if (method == 'control') {
-        console.log('control: ', message[2]);
+      } else if (method == 'response') {
+        console.log('response: ', message[3]);
         this.shared.request = false;
       }
 	  },
@@ -73,11 +75,13 @@ export default {
   },
   unmouned() {
     console.log('unmouned');
-    var request = [
+      const opaque = 123;
+    const request = [
       'unsubscribe',
       'services',
+      opaque,
     ];
-    var message = JSON.stringify(request);
+    const message = JSON.stringify(request);
     console.log(message);
     event.target.send(message);
   },
