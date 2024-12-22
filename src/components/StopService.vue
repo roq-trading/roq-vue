@@ -8,7 +8,7 @@ export default {
       // console.log(this.params);
       const name = this.params.data.name;
       const action = event.target.textContent;
-      this.params.context.request(name, action);
+      this.params.context.submit(name, action);
     },
   },
 };

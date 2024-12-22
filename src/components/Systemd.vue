@@ -2,6 +2,7 @@
 import { AgGridVue } from "ag-grid-vue3";
 import StartService from "./StartService.vue";
 import StopService from "./StopService.vue";
+import { shared, request } from "@/socket";
 import {
   format_datetime,
 } from "@/components/Utils";
@@ -24,7 +25,23 @@ export default {
       columnDefs: [
         { cellRenderer: StartService, cellRendererParams: { shared: this.shared, }, },
         { cellRenderer: StopService, cellRendererParams: { shared: this.shared, }, },
-        { headerName: 'name', field: 'name', },
+        { headerName: 'name', field: 'name', 
+          cellRenderer: (params) => {
+                    const route = {
+                                name: "services",
+                                params: { name: params.value }
+                              };
+
+                    const link = document.createElement("a");
+                    link.href = this.$router.resolve(route).href;
+                    link.innerText = params.value;
+                    link.addEventListener("click", e => {
+                                e.preventDefault();
+                                this.$router.push(route);
+                              });
+                    return link;
+                }
+        },
         { headerName: 'description', field: 'systemd.description', },
         { headerName: 'active_state', field: 'systemd.active_state', cellClassRules: {
           'inactive': params => params.value == 'inactive',
@@ -48,7 +65,9 @@ export default {
       },
       name: null,
       context: {
-        request: this.request,
+        submit: (name, action) => {
+          request('systemd', name, action.toLowerCase())
+        },
       },
     };
   },

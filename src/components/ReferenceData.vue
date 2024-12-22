@@ -1,22 +1,9 @@
 <script setup>
-import axios from "axios";
-import _ from "lodash";
-import { create_url, format_helper } from "@/components/Utils";
+import { AgGridVue } from "ag-grid-vue3";
+
 defineProps({
-  gateway: {
-    type: String,
-    required: false,
-  },
-  exchange: {
-    type: String,
-    required: true,
-  },
-  symbol: {
-    type: String,
-    required: true,
-  },
-  timer: {
-    type: Date,
+  shared: {
+    type: Object,
     required: true,
   },
 });
@@ -24,63 +11,39 @@ defineProps({
 
 <script>
 export default {
+  components: {
+    AgGridVue,
+  },
   data() {
     return {
-      reference_data: null,
+      gridOptions: {
+        autoSizeStrategy: {
+          type: "fitCellContents",
+        },
+      },
     };
   },
   methods: {
-    fetch_reference_data() {
-      const path = `/api/reference_data?exchange=${this.exchange}&symbol=${this.symbol}`;
-      const url = create_url(path, this.gateway);
-      axios
-        .get(url)
-        .then(
-          (response) =>
-            (this.reference_data = _.omit(response.data, [
-              "stream_id",
-              "exchange",
-              "symbol",
-            ]))
-        )
-        .catch((error) => {
-          if (error.response) {
-            if (error.response.status == 404) this.reference_data = null;
-            else console.log(error.response);
-          } else if (error.request) {
-            console.log(error.request);
-          } else {
-            console.log("Error:", error.message);
-          }
-        });
-    },
-  },
-  watch: {
-    symbol() {
-      this.fetch_reference_data();
-    },
-    timer() {
-      this.fetch_reference_data();
-    },
-  },
-  mounted: function () {
-    this.fetch_reference_data();
-  },
+    getRowId: (params) => params.data._id,
+  }
 };
 </script>
 
 <template>
   <div class="container">
     <h3>Reference Data</h3>
-    <table v-if="reference_data">
-      <tr v-for="(value, key) in reference_data" :key="key">
-        <td>{{ key }}</td>
-        <td v-if="typeof value === 'number'" style="text-align: right">
-          {{ format_helper(key, value) }}
-        </td>
-        <td v-else>{{ format_helper(key, value) }}</td>
-      </tr>
-    </table>
+    <div class="grid" v-if="'reference_data' in shared.resources">>
+      <ag-grid-vue
+        style="width: 100%; height: 512px;"
+        class="ag-theme-alpine-dark"
+        :gridOptions="gridOptions"
+        :columnDefs="shared.resources.reference_data[0]"
+        :rowData="shared.resources.reference_data[1]"
+        :getRowId="getRowId"
+      >
+      </ag-grid-vue>
+    </div>
+    <div style="clear: both"></div>
   </div>
 </template>
 

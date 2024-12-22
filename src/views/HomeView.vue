@@ -1,87 +1,20 @@
 <script setup>
-import { ref } from 'vue';
 import Systemd from "@/components/Systemd.vue";
-import Package from "@/components/Package.vue";
-import Host from "@/components/Host.vue";
-import socket from "@/socket.js"
+import { shared } from "@/socket";
 </script>
 
 <script>
 export default {
   data() {
     return {
-      shared: {
-        socket: socket,
-        next_request_id: 0,
-        request: false,
-	      services: null,
-      },
       view: 'systemd',
     };
   },
-  methods: {
-	  bind_socket() {
-      socket.onopen = this.on_open;
-      socket.onclose = this.on_close;
-      socket.onmessage = this.on_message;
-    },
-    on_open(event) {
-      console.log('open');
-      this.shared.request = false;  // XXX
-      const opaque = ++this.shared.next_request_id;
-      const request = [
-        'subscribe',
-        'services',
-        opaque,
-      ];
-      const message = JSON.stringify(request);
-      console.log(message);
-      event.target.send(message);
-    },
-    on_close(event) {
-      console.log('close');
-      this.shared.request = true;  // XXX
-      // XXX FIXME auto-reconnect
-    },
-    on_message(event) {
-      console.log(event.data);
-		  const message = JSON.parse(event.data);
-		  console.log(message);
-      const method = message[0];
-      if (method == 'ack') {
-        console.log('ack: ', message[2]);
-        if (message[1] == 'request')
-          this.shared.request = false;
-      } else if (method == 'snapshot') {
-        console.log('snapshot: ', message[2]);
-        this.shared.services = message[2];
-      } else if (method == 'update') {
-        console.log('update: ', message[2]);
-        // XXX FIXME doesn't work -- use transactions on the grid instead
-        const name = message[2].name;
-        for (var i = 0; i < this.shared.services.length; i++) {
-          if (this.shared.services[i].name == name) {
-            this.shared.services[i] = message[2];
-            return;
-          }
-        }
-      }
-	  },
-  },
   mounted() {
-    this.bind_socket();
+    console.log('mounted');
   },
-  unmouned() {
-    console.log('unmouned');
-      const opaque = 123;
-    const request = [
-      'unsubscribe',
-      'services',
-      opaque,
-    ];
-    const message = JSON.stringify(request);
-    console.log(message);
-    event.target.send(message);
+  unmounted() {
+    console.log('unmounted');
   },
 };
 </script>
@@ -93,18 +26,7 @@ export default {
   </div>
   <div class="container">
     <div class="view">
-      <button @click="view='systemd'">systemd</button>
-      <button @click="view='package'">package</button>
-      <button @click="view='host'">host</button>
-      <div v-if="view=='systemd'">
-        <Systemd :shared="shared" />
-      </div>
-      <div v-if="view=='package'">
-        <Package :shared="shared" />
-      </div>
-      <div v-if="view=='host'">
-        <Host :shared="shared" />
-      </div>
+      <Systemd :shared="shared" />
     </div>
     <div class="view"></div>
   </div>
