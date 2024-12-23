@@ -109,6 +109,7 @@ export default {
   <div class="container">
     <div v-if="shared.services">
       <h3>Systemd</h3>
+      <i>Click on 'name' for further details</i>
       <div class="grid">
         <ag-grid-vue
           style="width: 100%; height: 200px"

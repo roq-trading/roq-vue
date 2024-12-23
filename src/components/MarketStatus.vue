@@ -33,14 +33,14 @@ export default {
 
 <template>
   <div class="container">
-    <h3>Reference Data</h3>
-    <div class="grid" v-if="'reference_data' in shared.resources">
+    <h3>Market Status</h3>
+    <div class="grid" v-if="'market_status' in shared.resources">
       <ag-grid-vue
         style="width: 100%; height: 512px;"
         class="ag-theme-alpine-dark"
         :gridOptions="gridOptions"
-        :columnDefs="shared.resources.reference_data[0]"
-        :rowData="shared.resources.reference_data[1]"
+        :columnDefs="shared.resources.market_status[0]"
+        :rowData="shared.resources.market_status[1]"
         :getRowId="getRowId"
       >
       </ag-grid-vue>

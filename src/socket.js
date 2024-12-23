@@ -36,6 +36,8 @@ const create_socket = () => {
   socket.onclose = (event) => {
     console.log('close');
     shared.services = [];
+    shared.name = '';
+    shared.resources = {};
   };
 
   const schema_to_ag_grid_column_defs = (schema) => {
@@ -43,28 +45,46 @@ const create_socket = () => {
       switch (type) {
         case 'bool':
           return 'boolean';
+        case 'int16':
+        case 'uint16':
+        case 'int32':
+        case 'uint32':
         case 'int64':
-          return 'number';
         case 'uint64':
-          return 'number';
-        case 'number':
+        case 'double':
           return 'number';
         case 'string':
           return 'text';
         case 'date':
-          return 'dateString';
         case 'datetime':
           return 'dateString';
         default:
           return type;
       }
     };
+    const get_filter = (type) => {
+      switch (type) {
+        case 'boolean':
+          return 'agTextColumnFilter';
+        case 'number':
+          return 'agNumberColumnFilter';
+        case 'text':
+          return 'agTextColumnFilter';
+        case 'dateString':
+          return 'agDateColumnFilter';
+        default:
+          return type;
+      }
+    };
     const callback = (item) => {
+      const type = get_type(item.type);
       return {
         headerName: item.field,
         field: item.field,
-        type: get_type(item.type),
+        type: type,
         enableCellChangeFlash: true,
+        filter: get_filter(type),
+        // rowGroup: item.key,  // XXX enterprise, only
       };
     };
     return schema.map(callback);
@@ -121,7 +141,7 @@ const create_socket = () => {
           }
           shared.resources[resource][1] = tmp;
         } else {
-          console.log('UNEXPECTED !!!');
+          console.error('UNEXPECTED !!!');
           shared.resources[resource] = [{}, rows];
         }
         // console.log(resource, shared.resources[resource]);

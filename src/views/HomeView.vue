@@ -6,15 +6,6 @@ import { shared } from "@/socket";
 <script>
 export default {
   data() {
-    return {
-      view: 'systemd',
-    };
-  },
-  mounted() {
-    console.log('mounted');
-  },
-  unmounted() {
-    console.log('unmounted');
   },
 };
 </script>
@@ -30,6 +21,7 @@ export default {
     </div>
     <div class="view"></div>
   </div>
+  <p>{{ shared.services }}</p>
 </template>
 
 <style scoped>

@@ -1,7 +1,10 @@
 <script setup>
+import StreamStatus from "@/components/StreamStatus.vue";
 import ReferenceData from "@/components/ReferenceData.vue";
+import MarketStatus from "@/components/MarketStatus.vue";
 import CustomMetrics from "@/components/CustomMetrics.vue";
 import Parameters from "@/components/Parameters.vue";
+import Session from "@/components/Session.vue";
 import { shared, subscribe, unsubscribe } from "@/socket";
 defineProps({
   name: {
@@ -14,13 +17,11 @@ defineProps({
 <script>
 export default {
   data() {
-    return {
-      view: 'systemd',
-    };
+    return {};
   },
   mounted() {
     console.log('mounted');
-    subscribe(this.name);
+    subscribe(this.name); // XXX FIXME there is a race with the grid rendering
   },
   unmounted() {
     console.log('unmounted');
@@ -42,7 +43,16 @@ export default {
       <CustomMetrics :shared="shared" />
     </div>
     <div class="view">
+      <MarketStatus :shared="shared" />
+    </div>
+    <div class="view">
       <ReferenceData :shared="shared" />
+    </div>
+    <div class="view">
+      <StreamStatus :shared="shared" />
+    </div>
+    <div class="view">
+      <Session :shared="shared" />
     </div>
   </div>
 </template>
