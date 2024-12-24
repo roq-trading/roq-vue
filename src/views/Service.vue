@@ -1,8 +1,11 @@
 <script setup>
 import CustomMetrics from "@/components/CustomMetrics.vue";
 import ExternalLatency from "@/components/ExternalLatency.vue";
+import Funds from "@/components/Funds.vue";
 import MarketStatus from "@/components/MarketStatus.vue";
 import Parameters from "@/components/Parameters.vue";
+import Positions from "@/components/Positions.vue";
+import RateLimits from "@/components/RateLimits.vue";
 import ReferenceData from "@/components/ReferenceData.vue";
 import Session from "@/components/Session.vue";
 import Statistics from "@/components/Statistics.vue";
@@ -45,6 +48,12 @@ export default {
       <CustomMetrics :shared="shared" />
     </div>
     <div class="view">
+      <Funds :shared="shared" />
+    </div>
+    <div class="view">
+      <Positions :shared="shared" />
+    </div>
+    <div class="view">
       <Statistics :shared="shared" />
     </div>
     <div class="view">
@@ -52,6 +61,9 @@ export default {
     </div>
     <div class="view">
       <ReferenceData :shared="shared" />
+    </div>
+    <div class="view">
+      <RateLimits :shared="shared" />
     </div>
     <div class="view">
       <ExternalLatency :shared="shared" />
