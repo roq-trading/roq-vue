@@ -1,10 +1,12 @@
 <script setup>
-import StreamStatus from "@/components/StreamStatus.vue";
-import ReferenceData from "@/components/ReferenceData.vue";
-import MarketStatus from "@/components/MarketStatus.vue";
 import CustomMetrics from "@/components/CustomMetrics.vue";
+import ExternalLatency from "@/components/ExternalLatency.vue";
+import MarketStatus from "@/components/MarketStatus.vue";
 import Parameters from "@/components/Parameters.vue";
+import ReferenceData from "@/components/ReferenceData.vue";
 import Session from "@/components/Session.vue";
+import Statistics from "@/components/Statistics.vue";
+import StreamStatus from "@/components/StreamStatus.vue";
 import { shared, subscribe, unsubscribe } from "@/socket";
 defineProps({
   name: {
@@ -43,10 +45,16 @@ export default {
       <CustomMetrics :shared="shared" />
     </div>
     <div class="view">
+      <Statistics :shared="shared" />
+    </div>
+    <div class="view">
       <MarketStatus :shared="shared" />
     </div>
     <div class="view">
       <ReferenceData :shared="shared" />
+    </div>
+    <div class="view">
+      <ExternalLatency :shared="shared" />
     </div>
     <div class="view">
       <StreamStatus :shared="shared" />
