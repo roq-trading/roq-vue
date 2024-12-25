@@ -1,12 +1,10 @@
 <script setup>
-import Systemd from "@/components/Systemd.vue";
+import ServiceControl from "@/components/ServiceControl.vue";
 import { shared } from "@/socket";
 </script>
 
 <script>
 export default {
-  data() {
-  },
 };
 </script>
 
@@ -17,11 +15,10 @@ export default {
   </div>
   <div class="container">
     <div class="view">
-      <Systemd :shared="shared" />
+      <ServiceControl :shared="shared" />
     </div>
     <div class="view"></div>
   </div>
-  <p>{{ shared.services }}</p>
 </template>
 
 <style scoped>

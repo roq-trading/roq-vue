@@ -3,9 +3,6 @@ import { AgGridVue } from "ag-grid-vue3";
 import StartService from "./StartService.vue";
 import StopService from "./StopService.vue";
 import { shared, request } from "@/socket";
-import {
-  format_datetime,
-} from "@/components/Utils";
 
 defineProps({
   shared: {
@@ -28,7 +25,7 @@ export default {
         { headerName: 'name', field: 'name', 
           cellRenderer: (params) => {
                     const route = {
-                                name: "services",
+                                name: "service",
                                 params: { name: params.value }
                               };
 
@@ -48,7 +45,7 @@ export default {
           'bad': params => params.value == 'failed',
           },
         },
-        { headerName: 'active_enter_timestamp', field: 'systemd.active_enter_timestamp', valueFormatter: (node) => format_datetime(node.value), },
+        { headerName: 'active_enter_timestamp', field: 'systemd.active_enter_timestamp', },
         { headerName: 'load_state', field: 'systemd.load_state', cellClassRules: {
           'bad': params => params.value == 'not-found',
           },
@@ -108,8 +105,8 @@ export default {
 <template>
   <div class="container">
     <div v-if="shared.services">
-      <h3>Systemd</h3>
-      <i>Click on 'name' for further details</i>
+      <h3>Service Control</h3>
+      <i>Click on 'name' to inspect the service</i>
       <div class="grid">
         <ag-grid-vue
           style="width: 100%; height: 200px"

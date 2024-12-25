@@ -96,6 +96,7 @@ const create_socket = () => {
     // console.log('message:', message);
     const method = message[0];
     if (method == 'ack') {
+      console.log('message:', message);
       const action = message[1];
       if (action == 'login' && shared.name.length > 0) {
         const request = [

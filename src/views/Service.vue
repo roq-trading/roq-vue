@@ -25,11 +25,9 @@ export default {
     return {};
   },
   mounted() {
-    console.log('mounted');
     subscribe(this.name); // XXX FIXME there is a race with the grid rendering
   },
   unmounted() {
-    console.log('unmounted');
     unsubscribe(this.name);
   },
 };
