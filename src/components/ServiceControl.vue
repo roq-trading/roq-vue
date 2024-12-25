@@ -63,18 +63,15 @@ export default {
       name: null,
       context: {
         submit: (name, action) => {
-          request('systemd', name, action.toLowerCase())
+          request('control', name, action.toLowerCase());
         },
       },
     };
   },
   methods: {
     request(name, action) {
-      const opaque = ++this.shared.next_request_id;
       const request = [
-        'request',
-        'systemd',
-        opaque,
+        'control',
         name,
         action.toLowerCase(),
       ];

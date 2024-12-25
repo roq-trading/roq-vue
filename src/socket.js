@@ -4,7 +4,6 @@ const shared = reactive({
   services: [],
   name: '',
   resources: {},
-  next_request_id: 0,
 });
 
 const create_url = () => {
@@ -142,7 +141,8 @@ const create_socket = () => {
           }
           shared.resources[resource][1] = tmp;
         } else {
-          console.error('UNEXPECTED !!!');
+          console.error('UNEXPECTED !!!');  // XXX FIXME TODO race between
+                                            // unsubscribe and update?
           shared.resources[resource] = [{}, rows];
         }
         // console.log(resource, shared.resources[resource]);
@@ -182,14 +182,11 @@ const unsubscribe = (name) => {
   send(request);
 };
 
-const request = (resource, name, action) => {
-  const opaque = ++shared.next_request_id;
+const request = (method, name, data) => {
   const request = [
-    'request',
-    resource,
-    opaque,
+    method,
     name,
-    action,
+    data,
   ];
   send(request);
   // this.shared.request = true;

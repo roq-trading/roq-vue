@@ -1,6 +1,6 @@
 <script setup>
 import { AgGridVue } from "ag-grid-vue3";
-import {toRefs} from 'vue';
+import { shared, request } from "@/socket";
 
 const props = defineProps({
   shared: {
@@ -26,7 +26,10 @@ export default {
   },
   methods: {
     getRowId: (params) => params.data._id,
-  }
+    test_request: (event) => {
+      request('parameters', shared.name, '[{"foo":"bar"}]');
+    },
+  },
 };
 </script>
 
@@ -45,6 +48,7 @@ export default {
       </ag-grid-vue>
     </div>
     <div style="clear: both"></div>
+    <button @click="test_request">TEST</button>
   </div>
 </template>
 
