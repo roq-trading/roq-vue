@@ -27,7 +27,24 @@ export default {
   methods: {
     getRowId: (params) => params.data._id,
     test_request: (event) => {
-      request('parameters', shared.name, '[{"foo":"bar"}]');
+      // XXX FIXME DEBUG
+      const request_2 = [{
+        label: "foo",
+        strategy_id: 0,
+        account: "",
+        exchange: "",
+        symbol: "BTC",
+        value: Math.random().toString(),
+      },{
+        label: "bar",
+        strategy_id: 0,
+        account: "",
+        exchange: "",
+        symbol: "ETH",
+        value: Math.random().toString(),
+      }];
+      const message = JSON.stringify(request_2);
+      request('parameters', shared.name, message);
     },
   },
 };
