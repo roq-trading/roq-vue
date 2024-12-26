@@ -84,6 +84,7 @@ const create_socket = () => {
         enableCellChangeFlash: true,
         filter: get_filter(type),
         // rowGroup: item.key,  // XXX enterprise, only
+        editable: item.editable,
       };
     };
     return schema.map(callback);

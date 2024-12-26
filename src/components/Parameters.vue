@@ -22,6 +22,11 @@ export default {
           type: "fitCellContents",
         },
       },
+      context: {
+        request_helper: (category, request_2) => {
+          request('parameters', shared.name, request_2);
+        },
+      },
     };
   },
   methods: {
@@ -43,8 +48,15 @@ export default {
         symbol: "ETH",
         value: Math.random().toString(),
       }];
-      const message = JSON.stringify(request_2);
-      request('parameters', shared.name, message);
+      request('parameters', shared.name, request_2);
+    },
+    onCellValueChanged: (event) => {
+      console.log(event);
+      const request = event.data;
+      delete request._id;
+      delete request.user;
+      console.log(request);
+      event.context.request_helper('parameters', request);
     },
   },
 };
@@ -61,6 +73,8 @@ export default {
         :columnDefs="shared.resources.parameters[0]"
         :rowData="shared.resources.parameters[1]"
         :getRowId="getRowId"
+        :context="context"
+        @cell-value-changed="onCellValueChanged"
       >
       </ag-grid-vue>
     </div>
