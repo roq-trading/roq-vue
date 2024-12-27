@@ -25,7 +25,7 @@ export default {
     return {};
   },
   mounted() {
-    subscribe(this.name); // XXX FIXME there is a race with the grid rendering
+    subscribe(this.name);
   },
   unmounted() {
     unsubscribe(this.name);

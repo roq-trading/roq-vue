@@ -101,7 +101,7 @@ const create_socket = () => {
       if (action == 'login' && shared.name.length > 0) {
         const request = [
           'subscribe',
-          name,
+          shared.name,
         ];
         console.log(request);
         const message = JSON.stringify(request);
@@ -164,7 +164,7 @@ const send = (request) => {
 };
 
 const subscribe = (name) => {
-  console.log('name:', name);
+  console.log('subscribe:', name);
   shared.name = name;
   const request = [
     'subscribe',
