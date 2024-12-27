@@ -1,0 +1,23 @@
+Use ag-grid's async updating.
+This is particularly useful when e.g. reference data is being populated after gateway restart.
+For example, if 1000 new instruments get added very quickly, one after another, the grid has to be re-rendered for each new instrument.
+This will make the browser window unresponsive until all updates have been processed.
+Alternative solution: the service manager can throttle and send batch updates.
+
+The Parameters input screen should support adding new rows (new keys).
+
+The Parameters input screen should visually show that a request has been sent and that the result (the update) has not been received yet.
+
+The Parameters input screen should allow multiple rows to be update atomically.
+User should update values and, when done, hit a submit button.
+
+The Parameters inpput screen should allow up/down tick of values.
+This is important to avoid entering bad values / it is safe to change by fixed amount.
+Perhaps we need underlying API support for this.
+
+More intuitive layout.
+Current layout is one big page with various screens.
+
+Automatic re-econnect websocket.
+
+Special color scheme when we have lost connection to service manager (websocket got disconnected).
