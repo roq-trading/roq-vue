@@ -1,6 +1,7 @@
 # roq-vue
 
-!!! EXPERIMENTAL !!!
+Front-end for Roq's service-manager.
+
 
 Install dependencies
 
@@ -20,5 +21,12 @@ Then compile this project and enable a local end-point for development
 npm run dev
 ```
 
-![Home1](/static/images/home_1.png)
-![Home2](/static/images/home_2.png)
+![services](/static/images/services.png)
+![parameters](/static/images/parameters.png)
+![streams](/static/images/streams.png)
+![session](/static/images/session.png)
+
+
+## License
+
+The project is released under the terms of the MIT license.
