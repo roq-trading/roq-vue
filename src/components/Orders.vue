@@ -4,13 +4,16 @@ import { AgGridVue } from "ag-grid-vue3";
 defineProps({
   shared: {
     type: Object,
-    required: false,
+    required: true,
   },
 });
 </script>
 
 <script>
 export default {
+  components: {
+    AgGridVue,
+  },
   data() {
     return {
       gridOptions: {
@@ -30,18 +33,19 @@ export default {
 
 <template>
   <div class="container">
-    <h3>Session</h3>
-    <div class="grid" v-if="'session' in shared.resources">
+    <h3>Orders</h3>
+    <div class="grid" v-if="'orders' in shared.resources">
       <ag-grid-vue
-        style="width: 100%; height: 1024px;"
+        style="width: 100%; height: 256px;"
         class="ag-theme-alpine-dark"
         :gridOptions="gridOptions"
-        :columnDefs="shared.resources.session[0]"
-        :rowData="shared.resources.session[1]"
+        :columnDefs="shared.resources.orders[0]"
+        :rowData="shared.resources.orders[1]"
         :getRowId="getRowId"
       >
       </ag-grid-vue>
     </div>
+    <div style="clear: both"></div>
   </div>
 </template>
 
@@ -55,8 +59,7 @@ table {
   width: 100%;
   background-color: black;
 }
-td:nth-child(1),
-td:nth-child(2) {
+td:nth-child(1) {
   color: #d7d6d2;
 }
 </style>

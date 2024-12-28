@@ -36,7 +36,7 @@ export default {
     <h3>External Latency</h3>
     <div class="grid" v-if="'external_latency' in shared.resources">
       <ag-grid-vue
-        style="width: 100%; height: 512px;"
+        style="width: 100%; height: 256px;"
         class="ag-theme-alpine-dark"
         :gridOptions="gridOptions"
         :columnDefs="shared.resources.external_latency[0]"

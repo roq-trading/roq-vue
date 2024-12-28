@@ -1,6 +1,7 @@
 <script setup>
 import { AgGridVue } from "ag-grid-vue3";
 import { shared, request } from "@/socket";
+import { isProxy, toRaw } from 'vue';
 
 const props = defineProps({
   shared: {
@@ -51,11 +52,11 @@ export default {
       request('parameters', shared.name, request_2);
     },
     onCellValueChanged: (event) => {
-      console.log(event);
-      const request = event.data;
+      const proxy = isProxy(event.data);
+      const data = proxy ? toRaw(event.data) : event.data;
+      const request = structuredClone(data);
       delete request._id;
       delete request.user;
-      console.log(request);
       event.context.request_helper('parameters', request);
     },
   },

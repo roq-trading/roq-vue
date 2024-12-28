@@ -53,6 +53,7 @@ const create_socket = () => {
         case 'double':
           return 'number';
         case 'string':
+        case 'enum':
           return 'text';
         case 'date':
         case 'datetime':
@@ -83,8 +84,7 @@ const create_socket = () => {
         type: type,
         enableCellChangeFlash: true,
         filter: get_filter(type),
-        // rowGroup: item.key,  // XXX enterprise, only
-        editable: item.editable,
+        editable: item.editable || false,
       };
     };
     return schema.map(callback);

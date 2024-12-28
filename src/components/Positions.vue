@@ -36,7 +36,7 @@ export default {
     <h3>Positions</h3>
     <div class="grid" v-if="'positions' in shared.resources">
       <ag-grid-vue
-        style="width: 100%; height: 512px;"
+        style="width: 100%; height: 256px;"
         class="ag-theme-alpine-dark"
         :gridOptions="gridOptions"
         :columnDefs="shared.resources.positions[0]"

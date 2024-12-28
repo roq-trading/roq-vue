@@ -3,7 +3,9 @@ import CustomMetrics from "@/components/CustomMetrics.vue";
 import ExternalLatency from "@/components/ExternalLatency.vue";
 import Funds from "@/components/Funds.vue";
 import MarketStatus from "@/components/MarketStatus.vue";
+import Orders from "@/components/Orders.vue";
 import Parameters from "@/components/Parameters.vue";
+import Portfolios from "@/components/Portfolios.vue";
 import Positions from "@/components/Positions.vue";
 import RateLimits from "@/components/RateLimits.vue";
 import ReferenceData from "@/components/ReferenceData.vue";
@@ -40,6 +42,9 @@ export default {
   </div>
   <div class="container">
     <div class="view">
+      <Portfolios :shared="shared" />
+    </div>
+    <div class="view">
       <Parameters :shared="shared" />
     </div>
     <div class="view">
@@ -50,6 +55,9 @@ export default {
     </div>
     <div class="view">
       <Positions :shared="shared" />
+    </div>
+    <div class="view">
+      <Orders :shared="shared" />
     </div>
     <div class="view">
       <Statistics :shared="shared" />
