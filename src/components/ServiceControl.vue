@@ -3,6 +3,7 @@ import { AgGridVue } from "ag-grid-vue3";
 import StartService from "./StartService.vue";
 import StopService from "./StopService.vue";
 import { shared, request } from "@/socket";
+import { useRouter } from "vue-router";
 
 defineProps({
   shared: {
@@ -19,6 +20,17 @@ export default {
   },
   data() {
     return {
+      router: useRouter(),
+      gridOptions: {
+        autoSizeStrategy: {
+          type: "fitCellContents",
+        },
+        alwaysShowHorizontalScroll: true,
+        alwaysShowVerticalScroll: true,
+        onRowClicked: (event) => {
+          this.router.push(event.data.name);
+        },
+      },
       columnDefs: [
         { cellRenderer: StartService, cellRendererParams: { shared: this.shared, }, },
         { cellRenderer: StopService, cellRendererParams: { shared: this.shared, }, },
@@ -103,11 +115,11 @@ export default {
   <div class="container">
     <div v-if="shared.services">
       <h3>Service Control</h3>
-      <i>Click on 'name' to inspect the service</i>
       <div class="grid">
         <ag-grid-vue
           style="width: 100%; height: 200px"
           class="ag-theme-alpine-dark"
+          :gridOptions="gridOptions"
           :columnDefs="columnDefs"
           :defaultColDef="defaultColDef"
           :getRowStyle="getRowStyle"
