@@ -27,8 +27,9 @@ export default {
         },
         alwaysShowHorizontalScroll: true,
         alwaysShowVerticalScroll: true,
-        onRowClicked: (event) => {
-          this.router.push(event.data.name);
+        onCellClicked: (event) => {
+          if (event.column.instanceId >= 2) // note! two first columns have buttons
+            this.router.push(event.data.name);
         },
       },
       columnDefs: [
