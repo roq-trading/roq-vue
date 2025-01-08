@@ -42,6 +42,9 @@ export default {
   </div>
   <div class="container">
     <div class="view">
+      <Session :shared="shared" />
+    </div>
+    <div class="view">
       <Portfolios :shared="shared" />
     </div>
     <div class="view">
@@ -76,9 +79,6 @@ export default {
     </div>
     <div class="view">
       <StreamStatus :shared="shared" />
-    </div>
-    <div class="view">
-      <Session :shared="shared" />
     </div>
   </div>
 </template>
