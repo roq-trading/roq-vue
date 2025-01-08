@@ -123,7 +123,7 @@ export default {
       <h3>Service Control</h3>
       <div class="grid">
         <ag-grid-vue
-          style="width: 100%; height: 200px"
+          style="width: 100%; height: 768px"
           class="ag-theme-alpine-dark"
           :gridOptions="gridOptions"
           :columnDefs="columnDefs"
