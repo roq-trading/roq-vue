@@ -28,8 +28,13 @@ export default {
         alwaysShowHorizontalScroll: true,
         alwaysShowVerticalScroll: true,
         onCellClicked: (event) => {
-          if (event.column.instanceId >= 2) // note! two first columns have buttons
-            this.router.push(event.data.name);
+          switch (event.column.colId) {
+            case '0':
+            case '1':
+              break;
+            default:
+              this.router.push(event.data.name);
+          }
         },
       },
       columnDefs: [
