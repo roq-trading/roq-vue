@@ -11,6 +11,7 @@ import RateLimits from "@/components/RateLimits.vue";
 import ReferenceData from "@/components/ReferenceData.vue";
 import Session from "@/components/Session.vue";
 import Statistics from "@/components/Statistics.vue";
+import Status from "@/components/Status.vue";
 import StreamStatus from "@/components/StreamStatus.vue";
 import { shared, subscribe, unsubscribe } from "@/socket";
 defineProps({
@@ -43,6 +44,9 @@ export default {
   <div class="container">
     <div class="view">
       <Session :shared="shared" />
+    </div>
+    <div class="view">
+      <Status :shared="shared" />
     </div>
     <div class="view">
       <Portfolios :shared="shared" />
