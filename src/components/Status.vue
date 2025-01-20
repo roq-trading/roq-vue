@@ -75,6 +75,8 @@ export default {
         class="ag-theme-alpine-dark"
         :gridOptions="gridOptions"
         :columnDefs="columnDefs"
+        :defaultColDef="defaultColDef"
+        :getRowStyle="getRowStyle"
         :rowData="shared.resources.status[1]"
         :context="context"
         :getRowId="getRowId"
