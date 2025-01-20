@@ -30,8 +30,14 @@ export default {
         { cellRenderer: EnableService, cellRendererParams: { shared: this.shared, }, },
         { cellRenderer: DisableService, cellRendererParams: { shared: this.shared, }, },
         { headerName: 'user', field: 'user', },
-        { headerName: 'connection_status', field: 'connection_status', },
-        { headerName: 'state', field: 'state', },
+        { headerName: 'connection_status', field: 'connection_status', cellClassRules: {
+          'good': params => params.value == 'READY',
+          'bad': params => params.value == 'DISCONNECTED',
+          },
+        { headerName: 'state', field: 'state', cellClassRules: {
+          'good': params => params.value == 'ENABLED',
+          'bad': params => params.value == 'DISABLED',
+          },
       ],
       defaultColDef: {
         flex: 1,
