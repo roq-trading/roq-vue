@@ -1,5 +1,8 @@
 <script setup>
 import { AgGridVue } from "ag-grid-vue3";
+import EnableService from "./EnableService.vue";
+import DisableService from "./DisableService.vue";
+import { request } from "@/socket";
 
 defineProps({
   shared: {
@@ -23,6 +26,25 @@ export default {
         alwaysShowHorizontalScroll: true,
         alwaysShowVerticalScroll: true,
       },
+      columnDefs: [
+        { cellRenderer: EnableService, cellRendererParams: { shared: this.shared, }, },
+        { cellRenderer: DisableService, cellRendererParams: { shared: this.shared, }, },
+        { headerName: 'user', field: 'user', },
+        { headerName: 'connection_status', field: 'connection_status', },
+        { headerName: 'state', field: 'state', },
+      ],
+      defaultColDef: {
+        flex: 1,
+        resizable: true,
+        editable: false,
+      },
+      name: null,
+      context: {
+        submit: (user, action) => {
+          const data = [user, action.toLowerCase()];
+          request('control2', this.shared.name, data);
+        },
+      },
     };
   },
   methods: {
@@ -39,8 +61,9 @@ export default {
         style="width: 100%; height: 512px;"
         class="ag-theme-alpine-dark"
         :gridOptions="gridOptions"
-        :columnDefs="shared.resources.status[0]"
+        :columnDefs="columnDefs"
         :rowData="shared.resources.status[1]"
+        :context="context"
         :getRowId="getRowId"
       >
       </ag-grid-vue>
