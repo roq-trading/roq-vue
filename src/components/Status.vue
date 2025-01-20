@@ -30,13 +30,8 @@ export default {
         { cellRenderer: EnableService, cellRendererParams: { shared: this.shared, }, },
         { cellRenderer: DisableService, cellRendererParams: { shared: this.shared, }, },
         { headerName: 'user', field: 'user', },
-        { headerName: 'connection_status', field: 'connection_status', cellClassRules: {
-          'good': params => params.value == 'READY',
-          'bad': params => params.value == 'DISCONNECTED',
-          },
-        },
+        { headerName: 'connection_status', field: 'connection_status', },
         { headerName: 'state', field: 'state', cellClassRules: {
-          'good': params => params.value == 'ENABLED',
           'bad': params => params.value == 'DISABLED',
           },
         },
@@ -57,6 +52,16 @@ export default {
   },
   methods: {
     getRowId: (params) => params.data._id,
+    getRowStyle(params) {
+      // red: #ff4500
+      // grey: #d7d6d2
+      // orange: #f0af0d
+      // dark-grey: #99969f
+      // red: #7f0102
+      // blue: #16304b
+      if (params.data.connection_status == 'READY')
+        return {'background':'#16304b'};
+    },
   },
 };
 </script>
