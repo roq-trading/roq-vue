@@ -34,10 +34,12 @@ export default {
           'good': params => params.value == 'READY',
           'bad': params => params.value == 'DISCONNECTED',
           },
+        },
         { headerName: 'state', field: 'state', cellClassRules: {
           'good': params => params.value == 'ENABLED',
           'bad': params => params.value == 'DISABLED',
           },
+        },
       ],
       defaultColDef: {
         flex: 1,
