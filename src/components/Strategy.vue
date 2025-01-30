@@ -68,7 +68,7 @@ export default {
 
 <template>
   <div class="container">
-    <h3>Status</h3>
+    <h3>Strategy</h3>
     <div class="grid" v-if="'status' in shared.resources">
       <ag-grid-vue
         style="width: 100%; height: 512px;"

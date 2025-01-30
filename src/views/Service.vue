@@ -9,9 +9,10 @@ import Portfolios from "@/components/Portfolios.vue";
 import Positions from "@/components/Positions.vue";
 import RateLimits from "@/components/RateLimits.vue";
 import ReferenceData from "@/components/ReferenceData.vue";
+import Service from "@/components/Service.vue";
 import Session from "@/components/Session.vue";
 import Statistics from "@/components/Statistics.vue";
-import Status from "@/components/Status.vue";
+import Strategy from "@/components/Strategy.vue";
 import StreamStatus from "@/components/StreamStatus.vue";
 import { shared, subscribe, unsubscribe } from "@/socket";
 defineProps({
@@ -46,7 +47,10 @@ export default {
       <Session :shared="shared" />
     </div>
     <div class="view">
-      <Status :shared="shared" />
+      <Service :shared="shared" />
+    </div>
+    <div class="view">
+      <Strategy :shared="shared" />
     </div>
     <div class="view">
       <Portfolios :shared="shared" />
