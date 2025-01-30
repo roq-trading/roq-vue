@@ -68,8 +68,8 @@ export default {
 
 <template>
   <div class="container">
-    <h3>service</h3>
-    <div class="grid" v-if="'status' in shared.resources">
+    <h3>Service</h3>
+    <div class="grid" v-if="'service' in shared.resources">
       <ag-grid-vue
         style="width: 100%; height: 512px;"
         class="ag-theme-alpine-dark"
@@ -77,7 +77,7 @@ export default {
         :columnDefs="columnDefs"
         :defaultColDef="defaultColDef"
         :getRowStyle="getRowStyle"
-        :rowData="shared.resources.status[1]"
+        :rowData="shared.resources.service[1]"
         :context="context"
         :getRowId="getRowId"
       >
