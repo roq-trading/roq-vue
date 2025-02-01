@@ -29,12 +29,12 @@ export default {
       columnDefs: [
         { cellRenderer: EnableStrategy, cellRendererParams: { shared: this.shared, }, },
         { cellRenderer: DisableStrategy, cellRendererParams: { shared: this.shared, }, },
-        { headerName: 'user', field: 'user', },
-        { headerName: 'strategy_id', field: 'strategy_id', },
-        { headerName: 'leg_id', field: 'leg_id', },
-        { headerName: 'account', field: 'account', },
-        { headerName: 'exchange', field: 'exchange', },
-        { headerName: 'symbol', field: 'symbol', },
+        { headerName: 'user', field: 'user', cellClass: 'key-column', },
+        { headerName: 'strategy_id', field: 'strategy_id', cellClass: 'key-column', },
+        { headerName: 'leg_id', field: 'leg_id', cellClass: 'key-column', },
+        { headerName: 'account', field: 'account', cellClass: 'value-column', },
+        { headerName: 'exchange', field: 'exchange', cellClass: 'value-column', },
+        { headerName: 'symbol', field: 'symbol', cellClass: 'value-column', },
         { headerName: 'state', field: 'state', cellClassRules: {
           'bad': params => params.value == 'DISABLED',
           },

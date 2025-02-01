@@ -29,13 +29,13 @@ export default {
       columnDefs: [
         { cellRenderer: EnableService, cellRendererParams: { shared: this.shared, }, },
         { cellRenderer: DisableService, cellRendererParams: { shared: this.shared, }, },
-        { headerName: 'user', field: 'user', },
-        { headerName: 'description', field: 'description', },
+        { headerName: 'user', field: 'user', cellClass: 'key-column', },
+        { headerName: 'description', field: 'description', cellClass: 'value-column', },
         { headerName: 'state', field: 'state', cellClassRules: {
           'bad': params => params.value == 'DISABLED',
           },
         },
-        { headerName: 'connection_status', field: 'connection_status', },
+        { headerName: 'connection_status', field: 'connection_status', cellClass: 'value-column', },
       ],
       defaultColDef: {
         flex: 1,

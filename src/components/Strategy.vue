@@ -29,9 +29,9 @@ export default {
       columnDefs: [
         { cellRenderer: EnableStrategy, cellRendererParams: { shared: this.shared, }, },
         { cellRenderer: DisableStrategy, cellRendererParams: { shared: this.shared, }, },
-        { headerName: 'user', field: 'user', },
-        { headerName: 'strategy_id', field: 'strategy_id', },
-        { headerName: 'description', field: 'description', },
+        { headerName: 'user', field: 'user', cellClass: 'key-column', },
+        { headerName: 'strategy_id', field: 'strategy_id', cellClass: 'key-column', },
+        { headerName: 'description', field: 'description', cellClass: 'value-column', },
         { headerName: 'state', field: 'state', cellClassRules: {
           'bad': params => params.value == 'DISABLED',
           },
