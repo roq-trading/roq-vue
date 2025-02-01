@@ -40,3 +40,10 @@ a:hover {
 .inactive {
   color: #99969f;
 }
+.key-column {
+  color: #d7d6d2;
+  font-weight: bold;
+}
+.value-column {
+  color: #99969f;
+}

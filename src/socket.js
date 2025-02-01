@@ -85,6 +85,7 @@ const create_socket = () => {
         enableCellChangeFlash: true,
         filter: get_filter(type),
         editable: item.editable || false,
+        cellClass: (item.key || false) ? 'key-column' : 'value-column',
       };
     };
     return schema.map(callback);

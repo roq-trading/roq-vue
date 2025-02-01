@@ -2,6 +2,7 @@
 import CustomMetrics from "@/components/CustomMetrics.vue";
 import ExternalLatency from "@/components/ExternalLatency.vue";
 import Funds from "@/components/Funds.vue";
+import Legs from "@/components/Legs.vue";
 import MarketStatus from "@/components/MarketStatus.vue";
 import Orders from "@/components/Orders.vue";
 import Parameters from "@/components/Parameters.vue";
@@ -51,6 +52,9 @@ export default {
     </div>
     <div class="view">
       <Strategy :shared="shared" />
+    </div>
+    <div class="view">
+      <Legs :shared="shared" />
     </div>
     <div class="view">
       <Portfolios :shared="shared" />

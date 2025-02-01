@@ -31,15 +31,8 @@ export default {
         { cellRenderer: DisableStrategy, cellRendererParams: { shared: this.shared, }, },
         { headerName: 'user', field: 'user', },
         { headerName: 'strategy_id', field: 'strategy_id', },
+        { headerName: 'description', field: 'description', },
         { headerName: 'state', field: 'state', cellClassRules: {
-          'bad': params => params.value == 'DISABLED',
-          },
-        },
-        { headerName: 'leg_id', field: 'leg_id', },
-        { headerName: 'account', field: 'account', },
-        { headerName: 'exchange', field: 'exchange', },
-        { headerName: 'symbol', field: 'symbol', },
-        { headerName: 'state_2', field: 'state_2', cellClassRules: {
           'bad': params => params.value == 'DISABLED',
           },
         },

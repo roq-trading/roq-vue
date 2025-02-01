@@ -1,7 +1,7 @@
 <script setup>
 import { AgGridVue } from "ag-grid-vue3";
-import EnableService from "./EnableService.vue";
-import DisableService from "./DisableService.vue";
+import EnableStrategy from "./EnableStrategy.vue";
+import DisableStrategy from "./DisableStrategy.vue";
 import { request } from "@/socket";
 
 defineProps({
@@ -27,15 +27,18 @@ export default {
         alwaysShowVerticalScroll: true,
       },
       columnDefs: [
-        { cellRenderer: EnableService, cellRendererParams: { shared: this.shared, }, },
-        { cellRenderer: DisableService, cellRendererParams: { shared: this.shared, }, },
+        { cellRenderer: EnableStrategy, cellRendererParams: { shared: this.shared, }, },
+        { cellRenderer: DisableStrategy, cellRendererParams: { shared: this.shared, }, },
         { headerName: 'user', field: 'user', },
-        { headerName: 'description', field: 'description', },
+        { headerName: 'strategy_id', field: 'strategy_id', },
+        { headerName: 'leg_id', field: 'leg_id', },
+        { headerName: 'account', field: 'account', },
+        { headerName: 'exchange', field: 'exchange', },
+        { headerName: 'symbol', field: 'symbol', },
         { headerName: 'state', field: 'state', cellClassRules: {
           'bad': params => params.value == 'DISABLED',
           },
         },
-        { headerName: 'connection_status', field: 'connection_status', },
       ],
       defaultColDef: {
         flex: 1,
@@ -69,8 +72,8 @@ export default {
 
 <template>
   <div class="container">
-    <h3>Service</h3>
-    <div class="grid" v-if="'service' in shared.resources">
+    <h3>Legs</h3>
+    <div class="grid" v-if="'legs' in shared.resources">
       <ag-grid-vue
         style="width: 100%; height: 512px;"
         class="ag-theme-alpine-dark"
@@ -78,7 +81,7 @@ export default {
         :columnDefs="columnDefs"
         :defaultColDef="defaultColDef"
         :getRowStyle="getRowStyle"
-        :rowData="shared.resources.service[1]"
+        :rowData="shared.resources.legs[1]"
         :context="context"
         :getRowId="getRowId"
       >
