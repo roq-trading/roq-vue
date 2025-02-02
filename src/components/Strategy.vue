@@ -44,8 +44,8 @@ export default {
       },
       name: null,
       context: {
-        submit: (user, action) => {
-          const data = [user, action.toLowerCase()];
+        submit: (user, action, strategy_id) => {
+          const data = [user, action.toLowerCase(), strategy_id];
           request('control2', this.shared.name, data);
         },
       },
