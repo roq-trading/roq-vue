@@ -23,6 +23,9 @@ export default {
         },
         alwaysShowHorizontalScroll: true,
         alwaysShowVerticalScroll: true,
+        getRowClass: (params) => {
+          return params.data._class;
+        },
         onRowClicked: (event) => {
           this.row_id = event.data._id;
         },

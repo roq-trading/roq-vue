@@ -22,6 +22,9 @@ export default {
         },
         alwaysShowHorizontalScroll: true,
         alwaysShowVerticalScroll: true,
+        getRowClass: (params) => {
+          return params.data._class;
+        },
       },
     };
   },
@@ -54,12 +57,5 @@ export default {
   margin: 0 0.5em 0.5em 0.5em;
   padding: 0.5em;
   background-color: black;
-}
-table {
-  width: 100%;
-  background-color: black;
-}
-td:nth-child(1) {
-  color: #d7d6d2;
 }
 </style>

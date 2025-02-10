@@ -20,6 +20,11 @@ export default {
         autoSizeStrategy: {
           type: "fitCellContents",
         },
+        alwaysShowHorizontalScroll: true,
+        alwaysShowVerticalScroll: true,
+        getRowClass: (params) => {
+          return params.data._class;
+        },
       },
     };
   },

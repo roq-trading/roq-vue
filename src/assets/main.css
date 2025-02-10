@@ -47,3 +47,8 @@ a:hover {
 .value-column {
   color: #99969f;
 }
+.row-good {
+}
+.row-bad {
+  background-color: #ff4500;
+}
