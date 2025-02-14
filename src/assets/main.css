@@ -41,7 +41,6 @@ a:hover {
   color: #99969f;
 }
 .key-column {
-  color: #d7d6d2;
   font-weight: bold;
 }
 .value-column {
@@ -52,6 +51,8 @@ a:hover {
 .row-bad {
   background-color: #ff4500;
 }
-.row-discard {
-  color: #99969f;
+.row-include {
+  background-color: #16304b;
+}
+.row-exclude {
 }
