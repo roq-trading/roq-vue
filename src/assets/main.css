@@ -52,3 +52,6 @@ a:hover {
 .row-bad {
   background-color: #ff4500;
 }
+.row-discard {
+  color: #99969f;
+}
